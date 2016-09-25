@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AnswerAggregator.Domain.Entities
 {
-    public class Department : BaseEntity
+    public abstract class BaseEntity
     {
-        [MaxLength(100)]
-        public string Name { get; set; }
+        [Key]
+        public virtual Guid Id { get; set; }
     }
 }

@@ -1,3 +1,7 @@
+using System.Configuration;
+using BL.Infrastructure;
+using Ninject.Modules;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WEB.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WEB.App_Start.NinjectWebCommon), "Stop")]
 
@@ -61,6 +65,11 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
+
+            var blModule = new INinjectModule[] { new NinjectBLModule(connectionString) };
+
+            kernel.Load(blModule);
         }        
     }
 }

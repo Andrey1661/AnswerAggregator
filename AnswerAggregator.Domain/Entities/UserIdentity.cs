@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnswerAggregator.Domain.Entities
 {
-    public class UserIdentity
+    public class UserIdentity : BaseEntity
     {
         [Key, ForeignKey("Profile")]
-        public Guid Id { get; set; }
+        public override Guid Id { get; set; }
 
         public bool AccountVerified { get; set; }
 

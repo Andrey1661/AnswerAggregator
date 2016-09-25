@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace AnswerAggregator.Domain.Entities
 {
-    public class Group
+    public class Group : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [MaxLength(30)]
         public string Name { get; set; }
 

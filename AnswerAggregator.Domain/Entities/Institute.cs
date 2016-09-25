@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnswerAggregator.Domain.Entities
 {
-    public class Institute
+    public class Institute : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [MaxLength(100)]
         public string Name { get; set; }
 
