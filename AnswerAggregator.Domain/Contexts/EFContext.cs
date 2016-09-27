@@ -1,21 +1,36 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using AnswerAggregator.Domain.Entities;
 
 namespace AnswerAggregator.Domain.Contexts
 {
     public class EfContext : DbContext
     {
-        public IDbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
-        public IDbSet<UserIdentity> UserIdentities { get; set; }
+        public DbSet<UserIdentity> UserIdentities { get; set; }
 
-        public IDbSet<University> Universities { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
 
-        public IDbSet<Institute> Institutes { get; set; }
+        public DbSet<UserSettings> UserSettings { get; set; } 
 
-        public IDbSet<Department> Departments { get; set; }
+        public DbSet<Topic> Topics { get; set; }
 
-        public IDbSet<Group> Groups { get; set; }
+        public DbSet<Post> Posts { get; set; } 
+
+        public DbSet<University> Universities { get; set; }
+
+        public DbSet<Institute> Institutes { get; set; }
+
+        public DbSet<Department> Departments { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Teacher> Teachers { get; set; }
+
+        public DbSet<GroupSubject> GroupSubjects { get; set; } 
 
         public EfContext(string connectionString)
             : base(connectionString) { }
@@ -26,6 +41,11 @@ namespace AnswerAggregator.Domain.Contexts
                 .HasRequired(t => t.Identity)
                 .WithRequiredDependent(t => t.Profile)
                 .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(t => t.Teachers)
+                .WithMany(t => t.Subjects)
+                .Map(t => t.MapLeftKey("SubjectId").MapRightKey("TeacherId").ToTable("SubjectTeacher"));
         }
     }
 }
