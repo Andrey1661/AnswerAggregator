@@ -6,10 +6,10 @@ namespace AnswerAggregator.Domain.Entities
 {
     public class GroupSubject
     {
-        [Key, ForeignKey("Group")]
+        [Key, Column(Order = 0), ForeignKey("Group")]
         public Guid GroupId { get; set; }
 
-        [Key, ForeignKey("Subject")]
+        [Key, Column(Order = 1), ForeignKey("Subject")]
         public Guid SubjectId { get; set; }
 
         public virtual Group Group { get; set; }

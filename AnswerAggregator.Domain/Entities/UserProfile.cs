@@ -24,7 +24,7 @@ namespace AnswerAggregator.Domain.Entities
         public virtual UserIdentity Identity { get; set; }
 
         [ForeignKey("Group")]
-        public Guid GroupId { get; set; }
+        public Guid? GroupId { get; set; }
 
         public virtual Group Group { get; set; }
     }
