@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
-using BL.DTO;
 using BL.Services.Interfaces;
-using WEB.Models.Account;
 
 namespace WEB.Controllers
 {
@@ -16,30 +17,11 @@ namespace WEB.Controllers
             _service = service;
         }
 
-        public ActionResult Register()
+        public async Task<ActionResult> Index()
         {
-            return View();
-        }
+            var model = await _service.GetUser("Test");
 
-        [HttpPost]
-        public async Task<ActionResult> Register(RegistrationModel model)
-        {
-            var user = new UserDTO
-            {
-                Login = model.Login,
-                Password = model.Password,
-                Email = model.Email
-            };
-
-            await _service.CreateUser(user);
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<ActionResult> ConfirmAccount(Guid token)
-        {
-            await _service.ConfirmAccount(token);
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
     }
 }
