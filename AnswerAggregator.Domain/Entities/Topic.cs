@@ -16,7 +16,12 @@ namespace AnswerAggregator.Domain.Entities
         [ForeignKey("Author")]
         public Guid AuthorId { get; set; }
 
+        [ForeignKey("Subject")]
+        public Guid SubjectId { get; set; }
+
         public virtual UserProfile Author { get; set; }
+
+        public virtual Subject Subject { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; } 
     }

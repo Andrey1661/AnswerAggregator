@@ -1,5 +1,7 @@
 using System.Configuration;
 using BL.Infrastructure;
+using BL.Services;
+using BL.Services.Interfaces;
 using Ninject.Modules;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WEB.App_Start.NinjectWebCommon), "Start")]
@@ -67,9 +69,11 @@ namespace WEB.App_Start
         {
             string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
 
-            var blModule = new INinjectModule[] { new NinjectBLModule(connectionString) };
+            var modules = new INinjectModule[] { new NinjectBLModule(connectionString) };
 
-            kernel.Load(blModule);
+            kernel.Load(modules);
+
+            kernel.Bind<IUserService>().To<TestUserService>();
         }        
     }
 }

@@ -22,19 +22,20 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         Task<T> Get(Expression<Func<T, bool>> predicate);
 
 
-
         /// <summary>
         /// Возвращает все объекты, относящиеся к данной модели
         /// </summary>
+        /// <param name="includeProperties">список свойств через запятую, которые необходимо загрузить вместе с основным объектом</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(string includeProperties = null);
 
         /// <summary>
         /// Возвращает коллекцию объектов, соответсвующих указанной выборке
         /// </summary>
         /// <param name="predicate">функция выборки</param>
+        /// <param name="includeProperties">список свойств через запятую, которые необходимо загрузить вместе с основным объектом</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate, string includeProperties = null);
 
         /// <summary>
         /// Возвращает коллекцию объектов, соответсвующих указанной выборке, а также выполняет сортировку по указанному ключу
@@ -43,8 +44,9 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         /// <param name="predicate">функция выборки</param>
         /// <param name="orderBy">ключ сортировки</param>
         /// <param name="descending">флаг сортировки с конца списка</param>
+        /// <param name="includeProperties">список свойств через запятую, которые необходимо загрузить вместе с основным объектом</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, bool descending = false);
+        Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, bool descending = false, string includeProperties = null);
 
         /// <summary>
         /// Возвращает коллекцию объектов, соответсвующих указанной выборке, а также выполняет сортировку по указанному ключу
@@ -55,9 +57,9 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         /// <param name="skip">указывает, сколько объектов нужно пропустить</param>
         /// <param name="take">указывает на количество объектов, которые нужно вернуть</param>
         /// <param name="descending">флаг сортировки с конца списка</param>
+        /// <param name="includeProperties">список свойств через запятую, которые необходимо загрузить вместе с основным объектом</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, int skip, int take, bool descending = false);
-
+        Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, int skip, int take, bool descending = false, string includeProperties = null);
 
 
         /// <summary>
@@ -89,7 +91,6 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         Task<int> Max(Expression<Func<T, int>> selector);
 
 
-
         /// <summary>
         /// Выполняет добавление указанного объекта
         /// </summary>
@@ -101,7 +102,6 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         /// </summary>
         /// <param name="item">объекта для удаления</param>
         void Delete(T item);
-
 
 
         /// <summary>

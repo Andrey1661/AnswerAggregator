@@ -8,7 +8,7 @@ using AnswerAggregator.Domain.Repositories.Interfaces;
 
 namespace AnswerAggregator.Domain.Repositories
 {
-    public class RepositoryBase<T> : IRepository<T> where T : class
+    internal class RepositoryBase<T> : IRepository<T> where T : class
     {
         protected readonly DbContext Context;
         protected readonly DbSet<T> Set;
@@ -31,17 +31,18 @@ namespace AnswerAggregator.Domain.Repositories
         }
 
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(string includeProperties = null)
         {
             return await Set.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate, string includeProperties = null)
         {
             return await Set.Where(predicate).ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, bool descending = false)
+        public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, 
+            bool descending = false, string includeProperties = null)
         {
             var result = Set.Where(predicate);
 
@@ -52,7 +53,8 @@ namespace AnswerAggregator.Domain.Repositories
             return await result.OrderBy(orderBy).ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, int skip, int take, bool descending = false)
+        public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, 
+            int skip, int take, bool descending = false, string includeProperties = null)
         {
             var result = Set.Where(predicate);
 
