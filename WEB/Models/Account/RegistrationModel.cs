@@ -12,7 +12,7 @@ namespace WEB.Models.Account
         public string Login { get; set; }
 
         [Display(Name = "Электронный адрес")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Некорректный email адрес")]
         public string Email { get; set; }
 
         [Display(Name = "Пароль")]

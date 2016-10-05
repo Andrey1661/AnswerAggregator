@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnswerAggregator.Domain.Entities
 {
+    [Table("Users")]
     public class UserIdentity : BaseEntity
     {
         [Key, ForeignKey("Profile")]

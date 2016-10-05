@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using BL.DTO;
 using BL.Services.Interfaces;
@@ -24,6 +25,11 @@ namespace WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var user = new UserDTO
             {
                 Login = model.Login,
@@ -33,13 +39,30 @@ namespace WEB.Controllers
 
             await _service.CreateUser(user);
 
-            return RedirectToAction("Index", "Home");
+            return new JsonResult
+            {
+                Data = new { success = true }
+            };
         }
 
         public async Task<ActionResult> ConfirmAccount(Guid token)
         {
-            await _service.ConfirmAccount(token);
+            var result = await _service.ConfirmAccount(token);
+
+            if (result.Success)
+                return RedirectToAction("Success", "Account");
+
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<JsonResult> CheckLogin(string login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<JsonResult> CheckEmail(string email)
+        {
+            throw new NotImplementedException();
+        } 
     }
 }

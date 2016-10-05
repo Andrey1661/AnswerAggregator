@@ -8,6 +8,7 @@ using AnswerAggregator.Domain.Entities;
 using AnswerAggregator.Domain.Repositories;
 using AnswerAggregator.Domain.Repositories.Interfaces;
 using BL.DTO;
+using BL.Enviroment;
 using BL.Services.Interfaces;
 
 namespace BL.Services
@@ -20,18 +21,22 @@ namespace BL.Services
         {
             UnitOfWork = unitOfWork;
 
-            CreateTestUsers();
+            UnitOfWork.UserProfiles.GetAll().Wait();
         }
 
-        public Task CreateUser(UserDTO user)
+        public Task<OperationResult> CreateUser(UserDTO user)
         {
             throw new NotImplementedException();
         }
 
-
-        public async Task<UserDTO> GetUser(string login)
+        public Task<UserDTO> GetUser(Guid id)
         {
-            var result = await UnitOfWork.UserProfiles.Get(t => t.Login == login);
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserDTO> GetUser(string loginOrEmail, string password)
+        {
+            var result = await UnitOfWork.UserProfiles.Get(t => t.Login == loginOrEmail);
 
             return new UserDTO
             {
@@ -43,36 +48,27 @@ namespace BL.Services
             };
         }
 
-        private void CreateTestUsers()
-        {
-            var identity = new UserIdentity {Id = Guid.NewGuid()};
-
-            var user = new UserProfile
-            {
-                Id = identity.Id,
-                Login = "Test",
-                Name = "Name",
-                Surname = "Surname",
-                Patronymic = "Patronymic",
-                Identity = identity
-            };
-
-            UnitOfWork.UserProfiles.Insert(user);
-            UnitOfWork.Save();
-        }
-
-
-        public Task<UserDTO> GetUser(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserDTO> GetUser(string loginOrEmail, string password)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<UserDTO> GetUser(System.Linq.Expressions.Expression<Func<UserDTO, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Enviroment.OperationResult> IUserService.CreateUser(UserDTO user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Enviroment.OperationResult> SendConfirmationMessage(string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Guid> CreateVerificationToken(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Enviroment.OperationResult> ConfirmAccount(Guid token)
         {
             throw new NotImplementedException();
         }
