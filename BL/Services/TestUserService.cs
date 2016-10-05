@@ -60,5 +60,21 @@ namespace BL.Services
             UnitOfWork.UserProfiles.Insert(user);
             UnitOfWork.Save();
         }
+
+
+        public Task<UserDTO> GetUser(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserDTO> GetUser(string loginOrEmail, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserDTO> GetUser(System.Linq.Expressions.Expression<Func<UserDTO, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
