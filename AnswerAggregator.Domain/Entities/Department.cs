@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnswerAggregator.Domain.Entities
@@ -7,5 +8,7 @@ namespace AnswerAggregator.Domain.Entities
     {
         [MaxLength(100)]
         public string Name { get; set; }
+
+        public ICollection<Group> Groups { get; set; } 
     }
 }
