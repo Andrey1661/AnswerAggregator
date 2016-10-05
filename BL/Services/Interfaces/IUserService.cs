@@ -36,10 +36,25 @@ namespace BL.Services.Interfaces
         /// <returns></returns>
         Task<UserDTO> GetUser(Expression<Func<UserDTO, bool>> predicate);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         Task SendConfirmationMessage(string code);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<Guid> CreateVerificationToken(Guid id);
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         Task ConfirmAccount(Guid token);
     }
 }
