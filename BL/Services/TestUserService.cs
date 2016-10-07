@@ -20,8 +20,6 @@ namespace BL.Services
         public TestUserService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
-
-            UnitOfWork.UserProfiles.GetAll().Wait();
         }
 
         public Task<OperationResult> CreateUser(UserDTO user)

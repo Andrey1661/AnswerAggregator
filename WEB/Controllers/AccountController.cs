@@ -57,12 +57,12 @@ namespace WEB.Controllers
 
         public async Task<JsonResult> CheckLogin(string login)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Function is not implemented yet");
         }
 
         public async Task<JsonResult> CheckEmail(string email)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Function is not implemented yet");
         } 
     }
 }

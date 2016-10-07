@@ -15,8 +15,6 @@ namespace BL.Infrastructure
 
         public NinjectBLModule(string connectionString)
         {
-            Database.SetInitializer(new TestDbInitializer());
-
             _connectionString = connectionString;
         }
 
