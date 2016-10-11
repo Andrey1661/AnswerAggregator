@@ -67,7 +67,7 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
 
             var modules = new INinjectModule[] { new NinjectBLModule(connectionString) };
 
