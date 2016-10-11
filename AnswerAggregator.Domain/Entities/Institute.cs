@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,7 @@ namespace AnswerAggregator.Domain.Entities
         public Guid UniversityId { get; set; }
 
         public virtual University University { get; set; }
+
+        public ICollection<Department> Departments { get; set; } 
     }
 }

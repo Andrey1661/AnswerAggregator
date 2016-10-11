@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Contexts;
+﻿using System.Data.Entity;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using AnswerAggregator.Domain.Contexts;
 using AnswerAggregator.Domain.Entities;
@@ -90,6 +91,11 @@ namespace AnswerAggregator.Domain.Repositories
             _logger = logger;
 
             Context.Database.Log = str => _logger.Log(GetType().Name, str);
+        }
+
+        public void Update<T>(T item) where T : class
+        {
+            Context.Entry(item).State = EntityState.Modified;
         }
 
         public void Save()

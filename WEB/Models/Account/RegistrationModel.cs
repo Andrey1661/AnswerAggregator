@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Models.Account
 {
@@ -11,8 +7,9 @@ namespace WEB.Models.Account
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
+        [Required(ErrorMessage = "Не указан электронный адрес")]
         [Display(Name = "Электронный адрес")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Некорректный email адрес")]
         public string Email { get; set; }
 
         [Display(Name = "Пароль")]

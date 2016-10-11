@@ -67,13 +67,13 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
 
             var modules = new INinjectModule[] { new NinjectBLModule(connectionString) };
 
             kernel.Load(modules);
 
-            kernel.Bind<IUserService>().To<TestUserService>();
+            kernel.Bind<IUserService>().To<UserService>();
         }        
     }
 }

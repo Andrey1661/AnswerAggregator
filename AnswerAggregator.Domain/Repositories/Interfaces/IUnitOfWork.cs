@@ -20,6 +20,7 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         IRepository<Topic> Topics { get; }
         IRepository<Post> Posts { get; }
 
+        void Update<T>(T item) where T : class;
         void Save();
         Task SaveAsync();
     }

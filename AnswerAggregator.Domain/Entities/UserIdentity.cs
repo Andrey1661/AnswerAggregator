@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnswerAggregator.Domain.Entities
 {
+    [Table("Users")]
     public class UserIdentity : BaseEntity
     {
         [Key, ForeignKey("Profile")]
@@ -13,14 +14,13 @@ namespace AnswerAggregator.Domain.Entities
 
         public Guid? AccountVerificationToken { get; set; }
 
-        public bool IsBanned { get; set; }
-
-        public DateTime? BanEndTime { get; set; }
-
-        public string BanReason { get; set; }
-
         public Guid? PasswordResetToken { get; set; }
 
         public virtual UserProfile Profile { get; set; }
+
+        public UserIdentity()
+        {
+            AccountVerified = false;
+        }
     }
 }
