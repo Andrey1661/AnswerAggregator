@@ -6,7 +6,7 @@ namespace BL.Enviroment
     {
         public bool Success { get; set; }
 
-        public IEnumerable<string> Errors { get; set; }
+        public ICollection<string> Errors { get; set; }
 
         public OperationResult(bool success) : this()
         {

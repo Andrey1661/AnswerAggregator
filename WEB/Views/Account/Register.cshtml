@@ -128,10 +128,10 @@
 
             if (data !== "") {
                 $.post("/Account/CheckLogin/",
-                {
-                    login: data
-                },
-                null);
+                    {
+                        login: data
+                    },
+                    function(data) { alert(data.success); });
             }
             
         });
@@ -142,10 +142,10 @@
 
             if (data !== "") {
                 $.post("/Account/CheckEmail/",
-                {
-                    email: data
-                },
-                null);
+                    {
+                        email: data
+                    },
+                    function(data) { alert(data.success); });
             }
         });
 

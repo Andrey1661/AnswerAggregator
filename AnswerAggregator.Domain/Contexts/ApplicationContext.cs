@@ -25,30 +25,10 @@ namespace AnswerAggregator.Domain.Contexts
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserProfile>()
-                .HasRequired(t => t.Identity)
-                .WithRequiredDependent(t => t.Profile)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Subject>()
-                .HasMany(t => t.Teachers)
-                .WithMany(t => t.Subjects)
-                .Map(t => t.MapLeftKey("SubjectId").MapRightKey("TeacherId").ToTable("SubjectTeacher"));
-
-            modelBuilder.Entity<Topic>()
-                .HasRequired(t => t.Author)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UserMessage>()
-                .HasRequired(t => t.Sender)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UserMessage>()
-                .HasRequired(t => t.Reciever)
-                .WithMany()
-                .WillCascadeOnDelete(false);
+            modelBuilder.Configurations.Add(new UserProfileConfiguration());
+            modelBuilder.Configurations.Add(new SubjectConfiguration());
+            modelBuilder.Configurations.Add(new TopicConfiguration());
+            modelBuilder.Configurations.Add(new UserMessageConfiguration());
         }
     }
 }

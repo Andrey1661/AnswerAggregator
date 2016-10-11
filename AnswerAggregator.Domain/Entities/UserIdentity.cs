@@ -14,14 +14,13 @@ namespace AnswerAggregator.Domain.Entities
 
         public Guid? AccountVerificationToken { get; set; }
 
-        public bool IsBanned { get; set; }
-
-        public DateTime? BanEndTime { get; set; }
-
-        public string BanReason { get; set; }
-
         public Guid? PasswordResetToken { get; set; }
 
         public virtual UserProfile Profile { get; set; }
+
+        public UserIdentity()
+        {
+            AccountVerified = false;
+        }
     }
 }

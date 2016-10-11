@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 
 namespace AnswerAggregator.Domain.Entities
 {
@@ -21,5 +22,19 @@ namespace AnswerAggregator.Domain.Entities
         public virtual UserProfile Sender { get; set; }
 
         public virtual UserProfile Reciever { get; set; }
+    }
+
+    class UserMessageConfiguration : EntityTypeConfiguration<UserMessage>
+    {
+        public UserMessageConfiguration()
+        {
+            HasRequired(t => t.Sender)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            HasRequired(t => t.Reciever)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+        }
     }
 }

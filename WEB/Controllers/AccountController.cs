@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using BL.DTO;
 using BL.Services.Interfaces;
@@ -37,11 +36,16 @@ namespace WEB.Controllers
                 Email = model.Email
             };
 
-            await _service.CreateUser(user);
+            var result = await _service.CreateUser(user);
+
+            if (result.Success)
+            {
+                await _service.SendConfirmationMessage(model.Email);
+            }
 
             return new JsonResult
             {
-                Data = new { success = true }
+                Data = new {success = true}
             };
         }
 
@@ -57,12 +61,22 @@ namespace WEB.Controllers
 
         public async Task<JsonResult> CheckLogin(string login)
         {
-            throw new NotImplementedException("Function is not implemented yet");
+            bool free = await _service.CheckLoginOccuped(login);
+
+            return new JsonResult
+            {
+                Data = new {success = free}
+            };
         }
 
         public async Task<JsonResult> CheckEmail(string email)
         {
-            throw new NotImplementedException("Function is not implemented yet");
+            bool free = await _service.CheckEmailOccuped(email);
+
+            return new JsonResult
+            {
+                Data = new {success = free}
+            };
         } 
     }
 }

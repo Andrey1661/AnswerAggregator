@@ -18,7 +18,7 @@ namespace BL.Services.Interfaces
 
         Task<OperationResult> SendConfirmationMessage(string code);
 
-        Task<Guid> CreateVerificationToken(Guid id);
+        Task<Guid?> CreateVerificationToken(Guid id);
 
         Task<OperationResult> ConfirmAccount(Guid token);
     }
