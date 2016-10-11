@@ -7,7 +7,7 @@ using BL.Services.Interfaces;
 
 namespace BL.Services
 {
-    class EmailMessageSender : IMessageSender
+    class EmailMessageService : IMessageService
     {
         public void SendMessage(string code, string message, string additionalInfo)
         {

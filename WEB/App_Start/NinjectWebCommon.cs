@@ -73,7 +73,7 @@ namespace WEB.App_Start
 
             kernel.Load(modules);
 
-            kernel.Bind<IUserService>().To<TestUserService>();
+            kernel.Bind<IUserService>().To<UserService>();
         }        
     }
 }

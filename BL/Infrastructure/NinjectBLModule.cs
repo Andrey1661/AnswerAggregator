@@ -4,6 +4,8 @@ using AnswerAggregator.Domain.Enviroment;
 using AnswerAggregator.Domain.Enviroment.Interfaces;
 using AnswerAggregator.Domain.Repositories;
 using AnswerAggregator.Domain.Repositories.Interfaces;
+using BL.Services;
+using BL.Services.Interfaces;
 using Ninject.Modules;
 
 namespace BL.Infrastructure
@@ -15,13 +17,12 @@ namespace BL.Infrastructure
 
         public NinjectBLModule(string connectionString)
         {
-            Database.SetInitializer(new TestDbInitializer());
-
             _connectionString = connectionString;
         }
 
         public override void Load()
         {
+            Kernel.Bind<IMessageService>().To<EmailMessageService>();
             Kernel.Bind<IUnitOfWork>().To<RepositoryContext>();
             Kernel.Bind<ILogger>().To<ConsoleLogger>();
             Kernel.Bind<ApplicationContext>().ToSelf().WithConstructorArgument(_connectionString);
