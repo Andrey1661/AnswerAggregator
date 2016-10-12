@@ -43,7 +43,10 @@ namespace WEB.Controllers
 
             if (result.Success)
             {
-                await _service.SendConfirmationMessage(model.Email);
+                var token = await _service.CreateVerificationToken(model.Login);
+                var link = Url.Action("ConfirmAccount", "Account", new {token = token.Value}, Request.Url.Scheme);
+
+                await _service.SendConfirmationMessage(model.Email, link);
             }
 
             return new JsonResult

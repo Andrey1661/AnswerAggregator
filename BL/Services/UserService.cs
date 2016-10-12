@@ -13,14 +13,14 @@ namespace BL.Services
     public class UserService : IUserService
     {
         protected readonly IUnitOfWork UnitOfWork;
-        protected readonly IMessageService MessageService;
+        protected readonly IMessageManager MessageManager;
         protected readonly IRepository<UserProfile> Profiles;
         protected readonly IRepository<UserIdentity> Identities;
 
-        public UserService(IUnitOfWork unitOfWork, IMessageService messageService)
+        public UserService(IUnitOfWork unitOfWork, IMessageManager messageManager)
         {
             UnitOfWork = unitOfWork;
-            MessageService = messageService;
+            MessageManager = messageManager;
 
             Profiles = UnitOfWork.UserProfiles;
             Identities = UnitOfWork.UserIdentities;
@@ -80,11 +80,11 @@ namespace BL.Services
             return user != null;
         }
 
-        public async Task<OperationResult> SendConfirmationMessage(string code)
+        public async Task<OperationResult> SendConfirmationMessage(string code, string returnUrl)
         {
             try
             {
-                await MessageService.SendMessageAsync(code, "", "");
+                await MessageManager.SendEmailConfirmationMessage(code, returnUrl);
 
                 return new OperationResult(true);
             }
@@ -100,18 +100,13 @@ namespace BL.Services
         public async Task<Guid?> CreateVerificationToken(Guid id)
         {
             var identity = await Identities.Get(id);
-            var token = Guid.NewGuid();
+            return await CreateVerificationToken(identity);
+        }
 
-            if (identity == null) return null;
-
-            if (identity.AccountVerificationToken == null)
-            {
-                identity.AccountVerificationToken = token;
-                UnitOfWork.Update(identity);
-                await UnitOfWork.SaveAsync();
-            }
-
-            return identity.AccountVerificationToken;
+        public async Task<Guid?> CreateVerificationToken(string loginOrEmail)
+        {
+            var identity = await Identities.Get(t => t.Profile.Login == loginOrEmail || t.Profile.Email == loginOrEmail);
+            return await CreateVerificationToken(identity);
         }
 
         public async Task<OperationResult> ConfirmAccount(Guid token)
@@ -131,6 +126,22 @@ namespace BL.Services
             await UnitOfWork.SaveAsync();
 
             return new OperationResult(true);
+        }
+
+        private async Task<Guid?> CreateVerificationToken(UserIdentity identity)
+        {
+            var token = Guid.NewGuid();
+
+            if (identity == null) return null;
+
+            if (identity.AccountVerificationToken == null)
+            {
+                identity.AccountVerificationToken = token;
+                UnitOfWork.Update(identity);
+                await UnitOfWork.SaveAsync();
+            }
+
+            return identity.AccountVerificationToken;
         }
     }
 }

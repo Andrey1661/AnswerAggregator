@@ -19,6 +19,7 @@ namespace BL.Infrastructure
             {
                 Id = id,
                 Login = "test",
+                Email = "test@mail.ru",
                 Identity = new UserIdentity
                 {
                     Id = id
