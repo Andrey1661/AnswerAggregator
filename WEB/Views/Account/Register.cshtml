@@ -25,56 +25,52 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(t => t.Email, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(t => t.Email, new {@class = "form-control", placeholder = "Почтовый адрес", id = "email"})
-                </div>
-                <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(t => t.Password, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.PasswordFor(t => t.Password, new {@class = "form-control", placeholder = "Пароль"})
-                </div>
-                <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(t => t.ConfirmPassword, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
-                    @Html.PasswordFor(t => t.ConfirmPassword, new {@class = "form-control", placeholder = "Подтвердите пароль"})
-                </div>
-                <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
+    <div class="form-group">
+        @Html.LabelFor(t => t.Password, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.PasswordFor(t => t.Password, new { @class = "form-control", placeholder = "Пароль" })
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
+        </div>
     </div>
-    <hr/>
-</div>
+
+    <div class="form-group">
+        @Html.LabelFor(t => t.ConfirmPassword, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.PasswordFor(t => t.ConfirmPassword, new { @class = "form-control", placeholder = "Подтвердите пароль" })
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
+}
+
+
+
+
+
+
+
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $("#login").blur(function() {
+        $("#login").blur(function () {
 
             var data = $('#login').val();
 
             if (data !== "") {
                 $.post("/Account/CheckLogin/",
-                    {
-                        login: data
-                    },
-                    function(data) { alert(data.success); });
+                {
+                    login: data
+                },
+                null);
             }
-            
+
         });
 
         $("#email").blur(function () {

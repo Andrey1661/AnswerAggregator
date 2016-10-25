@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.UI.WebControls
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -8,9 +9,11 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </head>
-<body>
+<body style="background-image: url(../../Content/Images/use_your_illusion.png)">
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -51,6 +54,8 @@
     </div>
 </div>
 <div class="container body-content">
+    <div style="background: linear-gradient(to bottom, #FFFFFF, #DBD7D2); border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; box-shadow: 4px 24px 39px -21px #000000" class="container">
+
     @RenderBody()
     <hr/>
     <footer>
