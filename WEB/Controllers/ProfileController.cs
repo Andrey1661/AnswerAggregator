@@ -1,17 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using BL.DTO;
+using BL.Services.Interfaces;
+using WEB.Models.Proflie;
 
 namespace WEB.Controllers
 {
     public class ProfileController : Controller
     {
-        // GET: Profile
-        public ActionResult Index()
+        private readonly IProfileService _service;
+
+        public ProfileController(IProfileService service)
         {
-            return View();
+            _service = service;
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<ProfileDTO, ProfileModel>();
+            });
         }
+
+        private string CurrentUser { get { return User.Identity.Name; } }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> Index()
+        {
+            var profile = await _service.GetProfile(CurrentUser);
+            var model = Mapper.Map<ProfileModel>(profile);
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> Settings()
+        {
+            var settings = await _service.GetSettings(CurrentUser);
+
+            return new JsonResult
+            {
+                Data = new UserSettingsModel()
+            };
+        } 
     }
 }

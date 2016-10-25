@@ -21,6 +21,14 @@ namespace AnswerAggregator.Domain.Repositories.Interfaces
         /// <returns></returns>
         Task<T> Get(Expression<Func<T, bool>> predicate);
 
+        /// <summary>
+        /// Возвращает первый объект, соответствующий функции выборки
+        /// </summary>
+        /// <param name="predicate">функция выборки</param>
+        /// <param name="includeProperties">Список ссылочных свойств, которые следует загрузить вместе с основным объектом</param>
+        /// <returns></returns>
+        Task<T> Get(Expression<Func<T, bool>> predicate, string includeProperties);
+
 
         /// <summary>
         /// Возвращает все объекты, относящиеся к данной модели

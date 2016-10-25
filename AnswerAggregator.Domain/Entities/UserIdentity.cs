@@ -10,6 +10,8 @@ namespace AnswerAggregator.Domain.Entities
         [Key, ForeignKey("Profile")]
         public override Guid Id { get; set; }
 
+        public string Role { get; set; }
+
         public bool AccountVerified { get; set; }
 
         public Guid? AccountVerificationToken { get; set; }
