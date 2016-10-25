@@ -8,16 +8,16 @@ using BL.Services.Interfaces;
 
 namespace BL.Services
 {
-    public class MessageManager : IMessageManager
+    public class EmailMessageManager : IMessageManager
     {
         protected IMessageSender Sender;
 
-        public MessageManager(IMessageSender sender)
+        public EmailMessageManager(IMessageSender sender)
         {
             Sender = sender;
         }
 
-        public async Task SendEmailConfirmationMessage(string code, string returnUrl)
+        public async Task SendConfirmationMessage(string code, string returnUrl)
         {
             string message = @"Для завершения регистрации перейдите по ссылке, указанной ниже<br/>";
             string linkText = "Ссылка для подтверждения";

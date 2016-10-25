@@ -6,6 +6,6 @@ namespace BL.Services.Interfaces
 {
     public interface IMessageManager
     {
-        Task SendEmailConfirmationMessage(string code, string returnUrl);
+        Task SendConfirmationMessage(string code, string confirmationData);
     }
 }

@@ -10,16 +10,15 @@ using BL.Services.Interfaces;
 
 namespace BL.Services
 {
-    public class UserService : IUserService
+    public class UserService : ServiceBase, IUserService
     {
-        protected readonly IUnitOfWork UnitOfWork;
         protected readonly IMessageManager MessageManager;
         protected readonly IRepository<UserProfile> Profiles;
         protected readonly IRepository<UserIdentity> Identities;
 
-        public UserService(IUnitOfWork unitOfWork, IMessageManager messageManager)
+        public UserService(IUnitOfWork unitOfWork, IMessageManager messageManager) 
+            : base(unitOfWork)
         {
-            UnitOfWork = unitOfWork;
             MessageManager = messageManager;
 
             Profiles = UnitOfWork.UserProfiles;
@@ -50,20 +49,40 @@ namespace BL.Services
             }
         }
 
-        public async Task<UserDTO> GetUser(Guid id)
+        public async Task<UserLoginData> GetUserLoginData(Guid id)
         {
             var user = await Profiles.Get(id);
 
-            return user != null ? Mapper.Map<UserDTO>(user) : null;
+            if (user != null)
+            {
+                return new UserLoginData
+                {
+                    Login = user.Login,
+                    Email = user.Email,
+                    Role = user.Identity.Role
+                };
+            }
+
+            return null;
         }
 
-        public async Task<UserDTO> GetUser(string loginOrEmail, string password)
+        public async Task<UserLoginData> GetUserLoginData(string loginOrEmail, string password)
         {
             var user = await Profiles.Get(t => 
                 (t.Login == loginOrEmail || t.Email == loginOrEmail) && 
                 t.Password == password);
 
-            return user != null ? Mapper.Map<UserDTO>(user) : null;
+            if (user != null)
+            {
+                return new UserLoginData
+                {
+                    Login = user.Login,
+                    Email = user.Email,
+                    Role = user.Identity.Role
+                };
+            }
+
+            return null;
         }
 
         public async Task<bool> CheckLoginOccuped(string login)
@@ -84,7 +103,7 @@ namespace BL.Services
         {
             try
             {
-                await MessageManager.SendEmailConfirmationMessage(code, returnUrl);
+                await MessageManager.SendConfirmationMessage(code, returnUrl);
 
                 return new OperationResult(true);
             }
@@ -142,6 +161,12 @@ namespace BL.Services
             }
 
             return identity.AccountVerificationToken;
+        }
+
+        public void Dispose()
+        {
+            if (UnitOfWork != null)
+                UnitOfWork.Dispose();
         }
     }
 }

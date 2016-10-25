@@ -39,7 +39,8 @@ namespace BL.Infrastructure
         {
             if (Kernel == null) return;
 
-            Kernel.Bind<IMessageManager>().To<MessageManager>();
+            Kernel.Bind<IProfileService>().To<ProfileService>();
+            Kernel.Bind<IMessageManager>().To<EmailMessageManager>();
             Kernel.Bind<IUnitOfWork>().To<RepositoryContext>();
             Kernel.Bind<IMessageSender>()
                 .To<EmailMessageSender>()

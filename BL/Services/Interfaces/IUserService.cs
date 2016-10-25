@@ -6,11 +6,11 @@ using BL.Enviroment;
 
 namespace BL.Services.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IDisposable
     {
         Task<OperationResult> CreateUser(UserDTO user);
-        Task<UserDTO> GetUser(Guid id);
-        Task<UserDTO> GetUser(string loginOrEmail, string password); 
+        Task<UserLoginData> GetUserLoginData(Guid id);
+        Task<UserLoginData> GetUserLoginData(string loginOrEmail, string password);
         Task<OperationResult> SendConfirmationMessage(string code, string returnUrl);
         Task<Guid?> CreateVerificationToken(Guid id);
         Task<Guid?> CreateVerificationToken(string loginOrEmail);
