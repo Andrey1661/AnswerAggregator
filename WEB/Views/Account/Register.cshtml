@@ -12,43 +12,58 @@
 
 <div class="row" style="margin-top: 30px;">
     <div class="col-md-12">
-        
+
         @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {
             <div class="form-group">
-                @Html.LabelFor(t => t.Login, new { @class = "col-sm-2 control-label" })         
+                @Html.LabelFor(t => t.Login, new {@class = "col-sm-2 control-label"})
                 <div class="col-sm-10">
                     @Html.TextBoxFor(t => t.Login, new {@class = "form-control", placeholder = "Логин", id = "login"})
                 </div>
                 <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.Login, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(t => t.Login, "", new {@class = "text-danger"})
                 </div>
             </div>
 
-    <div class="form-group">
-        @Html.LabelFor(t => t.Password, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.PasswordFor(t => t.Password, new { @class = "form-control", placeholder = "Пароль" })
-        </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
-        </div>
+            <div class="form-group">
+                @Html.LabelFor(t => t.Email, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(t => t.Email, new { @class = "form-control", placeholder = "Логин", id = "login" })
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.Password, new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.PasswordFor(t => t.Password, new {@class = "form-control", placeholder = "Пароль"})
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.ValidationMessageFor(t => t.Password, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.ConfirmPassword, new {@class = "col-sm-2 control-label"})
+                <div class="col-sm-10">
+                    @Html.PasswordFor(t => t.ConfirmPassword, new {@class = "form-control", placeholder = "Подтвердите пароль"})
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-success" />
+                </div>
+            </div>
+        }
+
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(t => t.ConfirmPassword, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.PasswordFor(t => t.ConfirmPassword, new { @class = "form-control", placeholder = "Подтвердите пароль" })
-        </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
-        </div>
-    </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
-}
-
-
+</div>
 
 
 
