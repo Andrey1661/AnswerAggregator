@@ -28,7 +28,7 @@ namespace WEB.Controllers
 
         private string CurrentUser { get { return User.Identity.Name; } }
 
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             var profile = await _service.GetProfile(CurrentUser);
@@ -37,14 +37,15 @@ namespace WEB.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult> Settings()
         {
             var settings = await _service.GetSettings(CurrentUser);
+            var model = new UserSettingsModel();
 
             return new JsonResult
             {
-                Data = new UserSettingsModel()
+                Data = model
             };
         } 
     }

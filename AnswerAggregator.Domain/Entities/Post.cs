@@ -28,6 +28,6 @@ namespace AnswerAggregator.Domain.Entities
 
         public virtual UserProfile Author { get; set; }
 
-        public ICollection<Post> Answers { get; set; }
+        public virtual ICollection<Post> Answers { get; set; }
     }
 }

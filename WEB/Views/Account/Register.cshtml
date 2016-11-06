@@ -9,19 +9,17 @@
     Html.EnableClientValidation(true);
 }
 
-
-<div class="row" style="margin-top: 30px;">
-    <div class="col-md-12">
-
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-        {
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
             <div class="form-group">
-                @Html.LabelFor(t => t.Login, new {@class = "col-sm-2 control-label"})
+                @Html.LabelFor(t => t.Login, new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(t => t.Login, new {@class = "form-control", placeholder = "Логин", id = "login"})
+                    @Html.TextBoxFor(t => t.Login, new { @class = "form-control", placeholder = "Логин", id = "login" })
                 </div>
                 <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.Login, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(t => t.Login, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -36,22 +34,22 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(t => t.Password, new {@class = "col-sm-2 control-label"})
+                @Html.LabelFor(t => t.Password, new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    @Html.PasswordFor(t => t.Password, new {@class = "form-control", placeholder = "Пароль"})
+                    @Html.PasswordFor(t => t.Password, new { @class = "form-control", placeholder = "Пароль" })
                 </div>
                 <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.Password, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(t => t.ConfirmPassword, new {@class = "col-sm-2 control-label"})
+                @Html.LabelFor(t => t.ConfirmPassword, new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    @Html.PasswordFor(t => t.ConfirmPassword, new {@class = "form-control", placeholder = "Подтвердите пароль"})
+                    @Html.PasswordFor(t => t.ConfirmPassword, new { @class = "form-control", placeholder = "Подтвердите пароль" })
                 </div>
                 <div class="col-sm-offset-2 col-sm-10">
-                    @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -60,35 +58,73 @@
                     <input type="submit" class="btn btn-success" />
                 </div>
             </div>
-        }
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Университет", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <select id="select-university" class="form-control">
+                        <option value="0">Выберите унивеститет</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="form-group">
+                @Html.Label("Институт", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <select id="select-institute" class="form-control">
+                        <option value="0">Выберите институт</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Курс", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <select id="select-course" class="form-control">
+                        <option value="0">Выберите курс</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Группа", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <select id="select-group" class="form-control">
+                        <option value="0">Выберите группу</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-
-
+}
 
 
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-        $("#login").blur(function () {
+        $("#login").blur(function() {
 
             var data = $('#login').val();
 
             if (data !== "") {
                 $.post("/Account/CheckLogin/",
-                {
-                    login: data
-                },
-                null);
+                    {
+                        login: data
+                    },
+                    null);
             }
 
         });
 
-        $("#email").blur(function () {
+        $("#email").blur(function() {
 
             var data = $('#email').val();
 
@@ -97,10 +133,71 @@
                     {
                         email: data
                     },
-                    function(data) { alert(data.success); });
+                    null);
             }
         });
 
-    });
+        function addOptions(elemId, data) {
 
+            var elem = $("#" + elemId);
+            for (var j = 0; j < elem.children().length; j++) {
+                if ($(elem.children()[j]).val() != 0) {
+                    $(elem.children()[j]).remove();
+                }      
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                var option = $("<option>");
+                option.html(data[i]);
+                option.val(i + 1);
+                elem.append(option);
+            }
+        };
+
+        function getGroupList() {
+            $.get("/Account/GetGroupList/",
+                {
+                    institute: $("#select-institute option:selected").text(),
+                    course: $("#select-course option:selected").text()
+                },
+                function (result) { addOptions("select-group", result) },
+                "JSON");
+        }
+
+        $("#select-university").change(function() {
+
+            $.get("/Account/GetInstituteList/",
+                {
+                    university: $("#select-university option:selected").text()
+                },
+                function (result) { addOptions("select-institute", result) },
+                "JSON");
+        });
+
+        $("#select-institute").change(function() {
+
+            if ($("#select-course").val() == 0) return;
+            getGroupList();
+
+        });
+
+        $("#select-course").change(function() {
+
+            if ($("#select-institute").val() == 0) return;
+            getGroupList();
+
+        });
+
+        //$.get("/Account/GetUniversityList/", null, function (result) { addOptions("select-university", result) }, "JSON");
+
+        $.ajax({
+            url: "/Account/GetUniversityList/",
+            dataType: "JSON",
+            beforeSend: function () { $("#select-university option:first-child").text("Загрузка...") },
+            success: function (result) { addOptions("select-university", result) },
+            complete: function () { $("#select-university option:first-child").text("Выберите унивеститет") }
+        });
+
+    });
+    
 </script>

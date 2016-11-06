@@ -9,6 +9,6 @@ namespace AnswerAggregator.Domain.Entities
         [Key, ForeignKey("Profile")]
         public override Guid Id { get; set; }
 
-        public UserProfile Profile { get; set; }
+        public virtual UserProfile Profile { get; set; }
     }
 }
