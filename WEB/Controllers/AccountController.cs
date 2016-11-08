@@ -14,11 +14,13 @@ namespace WEB.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserService _service;
+        private readonly IUserService _userService;
+        private readonly IStudyDataService _studyDataService;
 
-        public AccountController(IUserService service)
+        public AccountController(IUserService userService, IStudyDataService studyDataService)
         {
-            _service = service;
+            _userService = userService;
+            _studyDataService = studyDataService;
         }
 
         public ActionResult Login(string returnUrl)
@@ -34,7 +36,7 @@ namespace WEB.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var loginData = await _service.GetUserLoginData(model.UserName, model.Password);
+            var loginData = await _userService.GetUserLoginData(model.UserName, model.Password);
 
             if (loginData != null)
             {
@@ -88,14 +90,14 @@ namespace WEB.Controllers
                 Email = model.Email
             };
 
-            var result = await _service.CreateUser(user);
+            var result = await _userService.CreateUser(user);
 
             if (result.Success)
             {
-                var token = await _service.CreateVerificationToken(model.Login);
+                var token = await _userService.CreateVerificationToken(model.Login);
                 var link = Url.Action("ConfirmAccount", "Account", new {token = token.Value}, Request.Url.Scheme);
 
-                await _service.SendConfirmationMessage(model.Email, link);
+                await _userService.SendConfirmationMessage(model.Email, link);
             }
 
             return new JsonResult
@@ -106,7 +108,7 @@ namespace WEB.Controllers
 
         public async Task<ActionResult> ConfirmAccount(Guid token)
         {
-            var result = await _service.ConfirmAccount(token);
+            var result = await _userService.ConfirmAccount(token);
 
             if (result.Success)
                 return RedirectToAction("Success", "Account");
@@ -114,9 +116,15 @@ namespace WEB.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            throw new NotImplementedException();
+        } 
+
+
         public async Task<JsonResult> CheckLogin(string login)
         {
-            bool free = await _service.CheckLoginOccuped(login);
+            bool free = await _userService.CheckLoginOccuped(login);
 
             return new JsonResult
             {
@@ -126,12 +134,30 @@ namespace WEB.Controllers
 
         public async Task<JsonResult> CheckEmail(string email)
         {
-            bool free = await _service.CheckEmailOccuped(email);
+            bool free = await _userService.CheckEmailOccuped(email);
 
             return new JsonResult
             {
                 Data = new {success = free}
             };
+        }
+
+        public async Task<JsonResult> GetUniversityList()
+        {
+            var list = (await _studyDataService.GetUniversities()).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetInstituteList(string university)
+        {
+            var list = await _studyDataService.GetInstitutes(university);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetGroupList(string institute, int course)
+        {
+            var list = await _studyDataService.GetGroups(institute, course);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
 

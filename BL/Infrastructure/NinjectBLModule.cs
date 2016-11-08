@@ -7,6 +7,7 @@ using AnswerAggregator.Domain.Repositories;
 using AnswerAggregator.Domain.Repositories.Interfaces;
 using AutoMapper;
 using BL.DTO;
+using BL.Infrastructure.DbInitialization;
 using BL.Services;
 using BL.Services.Interfaces;
 using Ninject.Modules;
@@ -39,6 +40,7 @@ namespace BL.Infrastructure
         {
             if (Kernel == null) return;
 
+            Kernel.Bind<IStudyDataService>().To<StudyDataService>();
             Kernel.Bind<IProfileService>().To<ProfileService>();
             Kernel.Bind<IMessageManager>().To<EmailMessageManager>();
             Kernel.Bind<IUnitOfWork>().To<RepositoryContext>();

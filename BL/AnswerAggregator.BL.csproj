@@ -63,15 +63,17 @@
     <Compile Include="Enviroment\MessageSendResult.cs" />
     <Compile Include="Enviroment\OperationResult.cs" />
     <Compile Include="Infrastructure\NinjectBLModule.cs" />
-    <Compile Include="Infrastructure\TestDbInitializer.cs" />
+    <Compile Include="Infrastructure\DbInitialization\TestDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailMessageSender.cs" />
     <Compile Include="Services\Interfaces\IMessageManager.cs" />
     <Compile Include="Services\Interfaces\IMessageSender.cs" />
     <Compile Include="Services\Interfaces\IProfileService.cs" />
+    <Compile Include="Services\Interfaces\IStudyDataService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\EmailMessageManager.cs" />
     <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\StudyDataService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

@@ -148,6 +148,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\ForgotPasswordModel.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\Proflie\ProfileModel.cs" />
@@ -159,7 +160,7 @@
     <Content Include="Content\bootstrap.min.css" />
 
     <Content Include="Content\Styles\Layout.css" />
-
+    <Content Include="Content\Styles\Shared.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -200,7 +201,7 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginBox.cshtml" />
-
+    <Content Include="Views\Shared\_ForgotPasswordDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

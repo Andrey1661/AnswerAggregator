@@ -29,6 +29,8 @@ namespace AnswerAggregator.Domain.Contexts
             modelBuilder.Configurations.Add(new SubjectConfiguration());
             modelBuilder.Configurations.Add(new TopicConfiguration());
             modelBuilder.Configurations.Add(new UserMessageConfiguration());
+            modelBuilder.Configurations.Add(new GroupConfiguration());
+            modelBuilder.Configurations.Add(new DepratmentConfiguration());
         }
     }
 }

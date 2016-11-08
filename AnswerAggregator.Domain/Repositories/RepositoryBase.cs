@@ -37,6 +37,11 @@ namespace AnswerAggregator.Domain.Repositories
 
         public async Task<IEnumerable<T>> GetAll(string includeProperties = null)
         {
+            if (!string.IsNullOrWhiteSpace(includeProperties))
+            {
+                return await Set.Include(includeProperties).ToListAsync();
+            }
+
             return await Set.ToListAsync();
         }
 

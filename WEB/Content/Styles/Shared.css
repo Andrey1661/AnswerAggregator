@@ -1,0 +1,50 @@
+﻿
+
+.modal-window {
+    position: fixed;
+    display: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #000000;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+
+.modal-window:target {
+    display: block;
+    pointer-events: auto;
+}
+
+.modal-window > div {
+    width: 300px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #333333;
+    border: 2px solid #101010;
+    color: #999999;
+    text-align: justify;
+    padding-right: 30px; 
+}
+
+.modal-window > div input[type = "text"] {
+    width: 100%;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    font-size: 16px;
+}
+
+.modal-close:hover {
+    text-decoration: none;
+}

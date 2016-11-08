@@ -15,6 +15,8 @@ namespace AnswerAggregator.Domain.Entities
 
         public virtual University University { get; set; }
 
-        public ICollection<Department> Departments { get; set; } 
+        public virtual ICollection<Department> Departments { get; set; }
+
+        public virtual ICollection<Group> Groups { get; set; } 
     }
 }
