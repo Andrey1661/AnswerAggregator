@@ -1,0 +1,23 @@
+﻿
+#link-login {
+    cursor: pointer;
+}
+
+.nav-hid {
+    position: relative;
+}
+
+.login-box-container {
+    position: absolute;
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.login-box {
+    
+}
+
+.hidden {
+    display: none;
+}

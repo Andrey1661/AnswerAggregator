@@ -30,6 +30,10 @@ namespace AnswerAggregator.Domain.Repositories
             return await Set.FirstOrDefaultAsync(predicate);
         }
 
+        public async Task<T> Get(Expression<Func<T, bool>> predicate, string includeProperties)
+        {
+            return await Set.Include(includeProperties).FirstOrDefaultAsync(predicate);
+        }
 
         public async Task<IEnumerable<T>> GetAll(string includeProperties = null)
         {

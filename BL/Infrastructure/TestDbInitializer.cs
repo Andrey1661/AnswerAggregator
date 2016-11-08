@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AnswerAggregator.Domain.Contexts;
 using AnswerAggregator.Domain.Entities;
 
@@ -19,9 +15,16 @@ namespace BL.Infrastructure
             {
                 Id = id,
                 Login = "test",
+                Password = "1111",
+                Email = "test@mail.ru",
+                Name = "Иван",
+                Surname = "Иванов",
+                Patronymic = "Иванович",
                 Identity = new UserIdentity
                 {
-                    Id = id
+                    Id = id,
+                    AccountVerified = true,
+                    Role = "Admin"
                 }
             };
 

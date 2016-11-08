@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using BL.DTO;
 using BL.Services.Interfaces;
+using WEB.Enviroment;
 using WEB.Models.Account;
 
 namespace WEB.Controllers
@@ -18,6 +19,38 @@ namespace WEB.Controllers
         public AccountController(IUserService service)
         {
             _service = service;
+        }
+
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var loginData = await _service.GetUserLoginData(model.UserName, model.Password);
+
+            if (loginData != null)
+            {
+                AuthenticationManager.SetCookie(loginData.Email, model.RememberMe, loginData.Role);
+                return RedirectToLocalUrl(model.ReturnUrl);
+            }
+
+            ModelState.AddModelError("UserName", "Пользователь с такими данными не существует");
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult SignOut(string returnUrl)
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToLocalUrl(returnUrl);
         }
 
         public ActionResult Register()
@@ -59,7 +92,10 @@ namespace WEB.Controllers
 
             if (result.Success)
             {
-                await _service.SendConfirmationMessage(model.Email);
+                var token = await _service.CreateVerificationToken(model.Login);
+                var link = Url.Action("ConfirmAccount", "Account", new {token = token.Value}, Request.Url.Scheme);
+
+                await _service.SendConfirmationMessage(model.Email, link);
             }
 
             return new JsonResult
@@ -96,6 +132,17 @@ namespace WEB.Controllers
             {
                 Data = new {success = free}
             };
-        } 
+        }
+
+
+        private ActionResult RedirectToLocalUrl(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
