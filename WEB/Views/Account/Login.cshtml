@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+@model WEB.Models.Account.LoginModel
+
+<h2>Вход в систему</h2>
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
+        </div>
+        <div>
+            @Html.TextBoxFor(t => t.UserName, new {@class = "form-control"})
+        </div>
+        <div>
+            @Html.ValidationMessageFor(t => t.UserName, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(t => t.Password, new {@class = "control-label"})
+        </div>
+        <div>
+            @Html.PasswordFor(t => t.Password, new {@class = "form-control"})
+        </div>
+        <div>
+            @Html.ValidationMessageFor(t => t.Password, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(t => t.RememberMe, new {@class = "control-label"})
+            @Html.CheckBoxFor(t => t.RememberMe)
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" class="btn btn-success"/>
+    </div>
+}
+

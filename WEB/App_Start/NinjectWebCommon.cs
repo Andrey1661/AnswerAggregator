@@ -67,9 +67,11 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
+            string emailAddress = "suppservice.aa@gmail.com";
+            string password = "fLicIaBitA";
 
-            var modules = new INinjectModule[] { new NinjectBLModule(connectionString) };
+            var modules = new INinjectModule[] {new NinjectBLModule(connectionString, emailAddress, password)};
 
             kernel.Load(modules);
 

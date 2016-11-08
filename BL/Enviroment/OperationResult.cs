@@ -2,14 +2,15 @@
 
 namespace BL.Enviroment
 {
-    public struct OperationResult
+    public class OperationResult
     {
         public bool Success { get; set; }
 
-        public ICollection<string> Errors { get; set; }
+        public ICollection<string> Errors { get; protected set; }
 
-        public OperationResult(bool success) : this()
-        {
+        public OperationResult(bool success)
+        {       
+            Errors = new List<string>();
             Success = success;
         }
     }

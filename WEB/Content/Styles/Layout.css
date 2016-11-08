@@ -1,0 +1,59 @@
+﻿
+#link-login {
+    cursor: pointer;
+}
+
+.login-box-wrapper {
+    position: absolute;
+    display: block;
+    left: -175px;
+
+    margin-top: 17px;
+    padding: 5px;
+
+    background-color: #222222;
+    border: 1px solid #101010;
+    border-radius: 5px;
+}
+
+.login-box-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 15px solid;
+    border-top: 0;
+    border-color: transparent transparent #222222 transparent;
+    bottom: 100%;
+    right: 34px;
+}
+
+.login-box-wrapper div label {
+    color: #999999;
+    font-weight: normal;
+}
+
+.login-box-wrapper div input[type = "text"],
+.login-box-wrapper div input[type = "email"],
+.login-box-wrapper div input[type = "password"] {
+    width: 220px;
+}
+
+form .login-textbox-block {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+input[type = "text"],
+input[type = "password"],
+input[type = "email"],
+select {
+    height: 29px !important;
+    -ms-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.form-control {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
