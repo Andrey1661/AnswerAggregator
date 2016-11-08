@@ -1,0 +1,78 @@
+﻿@model WEB.Models.Account.RegistrationModel
+@{
+    Html.EnableClientValidation(true);
+}
+
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+
+
+<div class="container-dropdown-registration"
+     style="position: relative; width: 300px; border-style: dashed; padding: 15px; background: linear-gradient(to bottom, aliceblue, bisque) ">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(t => t.Login, new { @class = "control-label" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(t => t.Login, new { @class = "form-control", id = "login" })
+                </div>
+
+                <div class="col-md-offset-2 col-sm-10">
+                    @Html.ValidationMessageFor(t => t.Login, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(t => t.Password, new { @class = "control-label label-for-form" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.PasswordFor(t => t.Password, new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(t => t.ConfirmPassword, new { @class = "control-label label-for-form" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.PasswordFor(t => t.ConfirmPassword, new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.LabelFor(t => t.Email, new { @class = "control-label label-for-form" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(t => t.Email, new { @class = "form-control", id = "email" })
+                </div>
+
+                <div class="col-md-10">
+                    @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+    </div>

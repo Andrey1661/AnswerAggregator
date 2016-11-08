@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,8 +22,23 @@ namespace WEB.Controllers
 
         public ActionResult Register()
         {
+            IEnumerable<SelectListItem> ListOfUnivs = new List<SelectListItem>();
+            IEnumerable<SelectListItem> ListOfInstits = new List<SelectListItem>();
+            IEnumerable<SelectListItem> ListOfGrps = new List<SelectListItem>();
+            ViewBag.ListOfUnivs = ListOfUnivs;
+            ViewBag.ListOfInstits = ListOfInstits;
+            ViewBag.ListOfGrps = ListOfGrps;
+
+
             return View();
         }
+
+        //Частичное представление
+        public ActionResult PartialRegister()
+        {
+            return PartialView();
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationModel model)

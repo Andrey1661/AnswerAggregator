@@ -13,22 +13,36 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
+
 <body style="background-image: url(../../Content/Images/use_your_illusion.png)">
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background: linear-gradient(to left, #ff6600, #ff6c00); box-shadow: 4px 24px 39px -21px #000000; border-bottom: none; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
+
+    <style type="text/css">
+        .navbar-brand:hover {
+            background: linear-gradient(to top, #CA5102, #ff6c00);
+            border-bottom: none;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+    </style>
+
+    <div class="navbar navbar-fixed-top" style="background: linear-gradient(to left, #ff6600, #ff6c00); box-shadow: 4px 24px 39px -21px #000000; border-bottom: none; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></button>
-                @Html.ActionLink("Аггрегатор решений", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color: black" })
+                <div class="row">
+                    <div class="col-md-8">
+                        @Html.ActionLink("Аггрегатор решений", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color: black" })
+                    </div>
+                    <div class="col-md-4">
+                        <a class="navbar-brand"style="color: black" href="/Account/Register/">Зарегаться</a>
+                        @*@Html.Partial("/Account/PartialRegister")*@
+
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home", null, new { style = "color: black" })</li>
-                    <li>@Html.ActionLink("Регистрация", "Register", "Account", null, new { style = "color: black" })</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home", null, new { style = "color: black" })</li>
-                </ul>
-            </div>
+
         </div>
     </div>
+
 
     <div style="background: linear-gradient(to bottom, #FFFFFF, #DBD7D2); border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; box-shadow: 4px 24px 39px -21px #000000" class="container">
 

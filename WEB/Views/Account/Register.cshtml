@@ -9,68 +9,152 @@
     Html.EnableClientValidation(true);
 }
 
+<style type="text/css">
+    .control-label {
+        font-size: 13px;
+        font-family: "Arial", serif;
+        margin-left: 5px;
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    }
+
+    .form-control {
+        height: 29px;
+    }
+</style>
+
+@{Html.RenderPartial("PartialRegister");}
+
+@using (Ajax.BeginForm("Register", "Account", null, new AjaxOptions { HttpMethod = "POST"}))
 {
-    <br />
-    /*@Html.ValidationSummary()*/
-    <div class="form-group">
-        @Html.LabelFor(t => t.Login, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(t => t.Login, new { @class = "form-control", placeholder = "Логин", id = "login" })
+    <br/>
+
+    <div class="row" style="margin-left: 180px">
+        <div class="col-md-4">
+            <div class="form-horizontal">
+                @*Login*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.Login, new {@class = "control-label"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(t => t.Login, new {@class = "form-control", id = "login"})
+                    </div>
+
+                    <div class="col-md-offset-2 col-sm-10">
+                        @Html.ValidationMessageFor(t => t.Login, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                @*Password*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.Password, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.PasswordFor(t => t.Password, new {@class = "form-control"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(t => t.Password, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                @*ConfirmPassword*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.ConfirmPassword, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.PasswordFor(t => t.ConfirmPassword, new {@class = "form-control"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                @*Email*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.Email, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(t => t.Email, new {@class = "form-control", id = "email"})
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.ValidationMessageFor(t => t.Email, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.Login, "", new { @class = "text-danger" })
+
+        <div class="col-md-4">
+            <div class="form-horizontal">
+                @*Univesity*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.University, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("University", (IEnumerable<SelectListItem>) ViewBag.ListOfUnivs, new {@class = "form-control"})
+                    </div>
+                </div>
+
+                @*Institute*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.Institute, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("Institute", (IEnumerable<SelectListItem>) ViewBag.ListOfInstits, new {@class = "form-control"})
+                    </div>
+                </div>
+
+                @*Group*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(t => t.Group, new {@class = "control-label label-for-form" })
+                    </div>
+
+                    <div class="col-md-10">
+                        @Html.DropDownList("Group", (IEnumerable<SelectListItem>) ViewBag.ListOfGrps, new {@class = "form-control"})
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(t => t.Password, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.PasswordFor(t => t.Password, new { @class = "form-control", placeholder = "Пароль" })
-        </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(t => t.ConfirmPassword, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.PasswordFor(t => t.ConfirmPassword, new { @class = "form-control", placeholder = "Подтвердите пароль" })
-        </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.ConfirmPassword, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(t => t.Email, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(t => t.Email, new { @class = "form-control", placeholder = "Почтовый адрес", id = "email" })
-        </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+    <br/>
+    <hr/>
+    <div class="row text-center">
+        <div class="col-md-12">
+            <div class="form-group">
+                 <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+            </div>
         </div>
     </div>
 }
 
 
 
-
-
-
-
-
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $("#btn-submit")
+            .click(function(event) {
+
+                event.preventDefault();
+
+            });
 
         $("#login").blur(function () {
 
