@@ -1,5 +1,9 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Collections;
+using System.Collections.Generic;
+=======
+>>>>>>> origin/Andrey
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;

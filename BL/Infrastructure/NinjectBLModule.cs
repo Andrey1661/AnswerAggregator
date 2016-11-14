@@ -28,18 +28,27 @@ namespace BL.Infrastructure
             _password = password;
 
             Database.SetInitializer(new TestDbInitializer());
+        }
 
+        private void InitializeMapper()
+        {
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<UserDTO, UserProfile>();
                 cfg.CreateMap<UserProfile, UserDTO>();
+
+                cfg.CreateMap<Post, PostDTO>();
+                cfg.CreateMap<PostDTO, Post>();
             });
         }
 
         public override void Load()
         {
+            InitializeMapper();
+
             if (Kernel == null) return;
 
+            Kernel.Bind<ITopicService>().To<TopicService>();
             Kernel.Bind<IStudyDataService>().To<StudyDataService>();
             Kernel.Bind<IProfileService>().To<ProfileService>();
             Kernel.Bind<IMessageManager>().To<EmailMessageManager>();

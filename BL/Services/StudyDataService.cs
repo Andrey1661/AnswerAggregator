@@ -17,9 +17,9 @@ namespace BL.Services
         public StudyDataService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            Universities = UnitOfWork.Universities;
-            Institutes = UnitOfWork.Institutes;
-            Groups = UnitOfWork.Groups;
+            Universities = UnitOfWork.GetRepository<University>();
+            Institutes = UnitOfWork.GetRepository<Institute>();
+            Groups = UnitOfWork.GetRepository<Group>();
         }
 
         public async Task<IEnumerable<string>> GetUniversities()

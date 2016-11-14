@@ -21,14 +21,14 @@ namespace BL.Services
         {
             MessageManager = messageManager;
 
-            Profiles = UnitOfWork.UserProfiles;
-            Identities = UnitOfWork.UserIdentities;
+            Profiles = UnitOfWork.GetRepository<UserProfile>();
+            Identities = UnitOfWork.GetRepository<UserIdentity>();
         }
 
         public async Task<OperationResult> CreateUser(UserDTO user)
         {
             var id = Guid.NewGuid();
-            var identity = new UserIdentity { Id = id };
+            var identity = new UserIdentity {Id = id, Role = UserRoles.User.ToString()};
 
             var profile = Mapper.Map<UserProfile>(user);
             profile.Id = id;

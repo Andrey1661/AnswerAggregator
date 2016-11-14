@@ -10,19 +10,40 @@ namespace BL.Infrastructure.DbInitialization
     {
         protected override void Seed(ApplicationContext context)
         {
+            var id = Guid.NewGuid();
+            var id2 = Guid.NewGuid();
+
             var user = new UserProfile
             {
-                Id = Guid.NewGuid(),
-                Login = "test",
+                Id = id,
+                Login = "andrey",
                 Password = "1111",
-                Email = "test@mail.ru",
-                Name = "Иван",
-                Surname = "Иванов",
-                Patronymic = "Иванович",
+                Email = "andrey@mail.ru",
+                Name = "Андрей",
+                Surname = "Шедогубов",
+                Patronymic = "Александрович",
                 Identity = new UserIdentity
                 {
+                    Id = id,
                     AccountVerified = true,
                     Role = "Admin"
+                }
+            };
+
+            var user2 = new UserProfile
+            {
+                Id = id2,
+                Login = "danil",
+                Password = "1111",
+                Email = "danil@mail.ru",
+                Name = "Данил",
+                Surname = "Вельтер",
+                Patronymic = "Вячеславович",
+                Identity = new UserIdentity
+                {
+                    Id = id2,
+                    AccountVerified = true,
+                    Role = "User"
                 }
             };
 
@@ -38,19 +59,7 @@ namespace BL.Infrastructure.DbInitialization
                 {
                     Id = Guid.NewGuid(),
                     Name = "Московский Государственный Университет"
-                },
-
-                new University
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Сибирский Государственный Аэрокосмический Университет"
-                },
-
-                new University
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Красноярский Государственный Аграрный Университет"
-                }  
+                }
             };
 
             var institutes = new List<Institute>
@@ -126,7 +135,48 @@ namespace BL.Infrastructure.DbInitialization
                 }
             };
 
+            var groupSubjects = new List<GroupSubject>
+            {
+                new GroupSubject
+                {
+                    Group = groups[0],
+                    Subject = new Subject
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Программный курсовой проект"
+                    },
+                    SemesterNumber = 5
+                },
+
+                new GroupSubject
+                {
+                    Group = groups[0],
+                    Subject = new Subject
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Теория стохастических объектов"
+                    },
+                    SemesterNumber = 5
+                },
+
+                new GroupSubject
+                {
+                    Group = groups[1],
+                    Subject = new Subject
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Мат. анализ"
+                    },
+                    SemesterNumber = 5
+                }
+            };
+
+            user.Group = groups[0];
+            user2.Group = groups[1];
+
             context.UserProfiles.Add(user);
+            context.UserProfiles.Add(user2);
+            context.GroupSubjects.AddRange(groupSubjects);
             context.Universities.AddRange(universities);
             context.Groups.AddRange(groups);
             context.SaveChanges();

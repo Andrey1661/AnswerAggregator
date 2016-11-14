@@ -16,6 +16,7 @@ namespace AnswerAggregator.Domain.Repositories
 
         #region //repositories
 
+        /*
         private IRepository<UserProfile> _userProfiles;
         private IRepository<UserIdentity> _userIdentities;
         private IRepository<UserSettings> _userSettings;
@@ -82,6 +83,7 @@ namespace AnswerAggregator.Domain.Repositories
         {
             get { return _posts ?? (_posts = new RepositoryBase<Post>(Context)); }
         }
+        */
 
         #endregion
 
@@ -91,6 +93,12 @@ namespace AnswerAggregator.Domain.Repositories
             _logger = logger;
 
             Context.Database.Log = str => _logger.Log(GetType().Name, str);
+        }
+
+        public IRepository<T> GetRepository<T>() 
+            where T : class
+        {
+            return new RepositoryBase<T>(Context);
         }
 
         public void Update<T>(T item) where T : class
