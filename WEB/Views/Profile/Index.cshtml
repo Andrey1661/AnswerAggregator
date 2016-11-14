@@ -11,33 +11,35 @@
 <style>
     
     .profile-box {
-        float: left;
         min-width: 100px;
         margin-top: 20px;
     }
 
 </style>
 
-<div class="profile-box">
-
-    <div>
-        @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
+<div class="row">
+    <div class="col-md-3">
         <div>
-            @Html.DisplayFor(t => t.UserName)
+            @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
+            <div>
+                @Html.DisplayFor(t => t.UserName)
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(t => t.Email, new {@class = "control-label"})
+            <div>
+                @Html.DisplayFor(t => t.Email)
+            </div>
+        </div>
+        <div>
+            @Html.Label("ФИО", new {@class = "control-label"})
+            <div>
+                <p>@string.Format("{0} {1} {2}", Model.Surname, Model.Name, Model.Patronymic)</p>
+            </div>
         </div>
     </div>
-    <div>
-        @Html.LabelFor(t => t.Email, new {@class = "control-label"})
-        <div>
-            @Html.DisplayFor(t => t.Email)
-        </div>
+    <div class="col-md-3 col-md-pull-2">
+        
     </div>
-    <div>
-        @Html.Label("ФИО", new {@class = "control-label"})
-        <div>
-            <p>@string.Format("{0} {1} {2}", Model.Surname, Model.Name, Model.Patronymic)</p>
-        </div>
-    </div>
-
 </div>
 

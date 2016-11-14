@@ -143,6 +143,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Enviroment\AuthenticationManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -152,17 +154,21 @@
     <Compile Include="Models\Account\RegistrationModel.cs" />
     <Compile Include="Models\Proflie\ProfileModel.cs" />
     <Compile Include="Models\Proflie\UserSettingsModel.cs" />
+    <Compile Include="Models\Topic\PostModel.cs" />
+    <Compile Include="Models\Topic\SubjectModel.cs" />
+    <Compile Include="Models\Topic\TopicModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\background.png" />
     <Content Include="Content\Styles\Layout.css" />
     <Content Include="Content\Styles\Shared.css" />
+    <Content Include="Content\Styles\Topic.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\Andrey.pubxml" />
@@ -195,6 +201,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginBox.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordDialog.cshtml" />
+    <Content Include="Views\Topic\Topic.cshtml" />
+    <Content Include="Views\Shared\_LayoutHead.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

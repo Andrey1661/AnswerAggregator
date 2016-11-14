@@ -31,6 +31,7 @@ namespace AnswerAggregator.Domain.Contexts
             modelBuilder.Configurations.Add(new UserMessageConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());
             modelBuilder.Configurations.Add(new DepratmentConfiguration());
+
         }
     }
 }

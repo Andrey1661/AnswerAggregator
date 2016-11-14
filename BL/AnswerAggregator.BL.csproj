@@ -56,12 +56,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="DTO\SettingsDTO.cs" />
+    <Compile Include="DTO\SubjectDTO.cs" />
+    <Compile Include="DTO\TopicDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\UserLoginData.cs" />
     <Compile Include="Enviroment\MessageSendResult.cs" />
     <Compile Include="Enviroment\OperationResult.cs" />
+    <Compile Include="Enviroment\UserRoles.cs" />
     <Compile Include="Infrastructure\NinjectBLModule.cs" />
     <Compile Include="Infrastructure\DbInitialization\TestDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,11 +74,13 @@
     <Compile Include="Services\Interfaces\IMessageSender.cs" />
     <Compile Include="Services\Interfaces\IProfileService.cs" />
     <Compile Include="Services\Interfaces\IStudyDataService.cs" />
+    <Compile Include="Services\Interfaces\ITopicService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\EmailMessageManager.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\StudyDataService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\TopicService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +93,9 @@
       <Name>AnswerAggregator.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Infrastructure\DbInitialization\Modules\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -9,7 +9,12 @@
     Html.EnableClientValidation(true);
 }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    Url = "/Account/Register/",
+    HttpMethod = "Post",
+    OnSuccess = "success"
+}))
 {
     <div class="row" style="margin-top: 30px;">
         <div class="col-md-6">
@@ -26,7 +31,7 @@
             <div class="form-group">
                 @Html.LabelFor(t => t.Email, new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(t => t.Email, new { @class = "form-control", placeholder = "Логин", id = "login" })
+                    @Html.TextBoxFor(t => t.Email, new { @class = "form-control", placeholder = "Электронный адрес", id = "email" })
                 </div>
                 <div class="col-sm-offset-2 col-sm-10">
                     @Html.ValidationMessageFor(t => t.Email, "", new { @class = "text-danger" })
@@ -199,5 +204,13 @@
         });
 
     });
+
+    function success(result) {
+        if (result.success == true) {
+            alert("Регистрация прошла успешно. На электронный адрес, который вы указали, отправлено письмо со ссылкой для завершения регистрации");
+        } else {
+            alert("Произошла ошибка");
+        }
+    }
     
 </script>

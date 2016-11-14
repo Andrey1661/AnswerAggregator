@@ -20,9 +20,9 @@ namespace BL.Services
         public ProfileService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            Users = UnitOfWork.UserProfiles;
-            Identities = UnitOfWork.UserIdentities;
-            UserSettings = UnitOfWork.UserSettings;
+            Users = UnitOfWork.GetRepository<UserProfile>();
+            Identities = UnitOfWork.GetRepository<UserIdentity>();
+            UserSettings = UnitOfWork.GetRepository<UserSettings>();
         }
 
         public async Task<ProfileDTO> GetProfile(string email)

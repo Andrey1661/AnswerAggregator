@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using BL.DTO;
 using BL.Services.Interfaces;
@@ -22,29 +20,30 @@ namespace WEB.Controllers
             _studyDataService = studyDataService;
         }
 
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
+            if(Request.IsAjaxRequest())
+                return PartialView("_LoginBox");
 
-            return View();
+            return HttpNotFound();
         }
 
         [HttpPost]
         public async Task<ActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return PartialView("_LoginBox", model);
 
             var loginData = await _userService.GetUserLoginData(model.UserName, model.Password);
 
             if (loginData != null)
             {
                 AuthenticationManager.SetCookie(loginData.Email, model.RememberMe, loginData.Role);
-                return RedirectToLocalUrl(model.ReturnUrl);
+                return Json(new {success = true, url = GetLocalUrl(model.ReturnUrl)});
             }
 
             ModelState.AddModelError("UserName", "Пользователь с такими данными не существует");
-            return View(model);
+            return PartialView("_LoginBox", model);
         }
 
         [Authorize]
@@ -75,19 +74,18 @@ namespace WEB.Controllers
             };
 
             var result = await _userService.CreateUser(user);
-
+             
             if (result.Success)
             {
                 var token = await _userService.CreateVerificationToken(model.Login);
                 var link = Url.Action("ConfirmAccount", "Account", new {token = token.Value}, Request.Url.Scheme);
 
                 await _userService.SendConfirmationMessage(model.Email, link);
+
+                return Json(new {success = true});
             }
 
-            return new JsonResult
-            {
-                Data = new {success = true}
-            };
+            return Json(new {success = false});
         }
 
         public async Task<ActionResult> ConfirmAccount(Guid token)
@@ -95,7 +93,7 @@ namespace WEB.Controllers
             var result = await _userService.ConfirmAccount(token);
 
             if (result.Success)
-                return RedirectToAction("Success", "Account");
+                return RedirectToAction("Index", "Home");
 
             return RedirectToAction("Index", "Home");
         }
@@ -153,6 +151,14 @@ namespace WEB.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private string GetLocalUrl(string sourceUrl)
+        {
+            if (Url.IsLocalUrl(sourceUrl)) 
+                return sourceUrl;
+
+            return Url.Action("Index", "Home");
         }
     }
 }

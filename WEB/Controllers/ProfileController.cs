@@ -14,11 +14,13 @@ namespace WEB.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly IProfileService _service;
+        private readonly IProfileService _profileService;
+        private readonly ITopicService _topicService;
 
-        public ProfileController(IProfileService service)
+        public ProfileController(IProfileService profileService, ITopicService topicService)
         {
-            _service = service;
+            _profileService = profileService;
+            _topicService = topicService;
 
             Mapper.Initialize(cfg =>
             {
@@ -31,7 +33,8 @@ namespace WEB.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
-            var profile = await _service.GetProfile(CurrentUser);
+            var subjects = _topicService.GetSubjects(CurrentUser);
+            var profile = await _profileService.GetProfile(CurrentUser);
             var model = Mapper.Map<ProfileModel>(profile);
 
             return View(model);
@@ -40,7 +43,7 @@ namespace WEB.Controllers
         [Authorize]
         public async Task<ActionResult> Settings()
         {
-            var settings = await _service.GetSettings(CurrentUser);
+            var settings = await _profileService.GetSettings(CurrentUser);
             var model = new UserSettingsModel();
 
             return new JsonResult
