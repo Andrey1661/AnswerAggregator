@@ -9,18 +9,19 @@ using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
 using WEB.Models.Proflie;
+using WEB.Models.Topic;
 
 namespace WEB.Controllers
 {
     public class ProfileController : Controller
     {
         private readonly IProfileService _profileService;
-        private readonly ITopicService _topicService;
+        private readonly ISubjectService _subjectService;
 
-        public ProfileController(IProfileService profileService, ITopicService topicService)
+        public ProfileController(IProfileService profileService, ISubjectService subjectService)
         {
             _profileService = profileService;
-            _topicService = topicService;
+            _subjectService = subjectService;
 
             Mapper.Initialize(cfg =>
             {
@@ -33,9 +34,15 @@ namespace WEB.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
-            var subjects = _topicService.GetSubjects(CurrentUser);
             var profile = await _profileService.GetProfile(CurrentUser);
             var model = Mapper.Map<ProfileModel>(profile);
+
+            var subjects = await _subjectService.GetSubjects(profile.GroupId, 5);
+            model.Subjects = subjects.Select(t => new SubjectModel
+            {
+                Id = t.Id,
+                Name = t.Name
+            });
 
             return View(model);
         }

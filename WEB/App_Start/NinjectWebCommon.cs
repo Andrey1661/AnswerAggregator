@@ -1,8 +1,11 @@
 using System.Configuration;
+using AutoMapper;
+using BL.DTO;
 using BL.Infrastructure;
 using BL.Services;
 using BL.Services.Interfaces;
 using Ninject.Modules;
+using WEB.Models.Account;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WEB.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WEB.App_Start.NinjectWebCommon), "Stop")]
@@ -52,6 +55,7 @@ namespace WEB.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                CreateMappings();
                 return kernel;
             }
             catch
@@ -67,7 +71,7 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
             string emailAddress = "suppservice.aa@gmail.com";
             string password = "fLicIaBitA";
 
@@ -76,6 +80,15 @@ namespace WEB.App_Start
             kernel.Load(modules);
 
             kernel.Bind<IUserService>().To<UserService>();
-        }        
+        }
+
+        private static void CreateMappings()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<AutoMapperInitializationModule>();
+                cfg.CreateMap<RegistrationModel, UserDTO>();
+            });
+        }
     }
 }

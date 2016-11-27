@@ -1,2 +1,33 @@
 ﻿
+.topic-header {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 
+.topic-header span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.post-wrapper {
+    width: 100%;
+    min-height: 70px;
+    border: 2px solid black;
+    margin: 5px 0 10px 5px;
+}
+
+.post-info {
+    margin-bottom: 0;
+    height: 100%;
+}
+
+.post-content {
+    
+}
+
+.text-area {
+    min-width: 600px;
+    min-height: 100px;
+    resize: none;
+    overflow: auto;
+}

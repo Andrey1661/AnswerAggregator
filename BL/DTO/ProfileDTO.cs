@@ -25,6 +25,8 @@ namespace BL.DTO
 
         public string Institute { get; set; }
 
+        public Guid GroupId { get; set; }
+
         public string Group { get; set; }
 
         public bool AccountVerified { get; set; }

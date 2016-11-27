@@ -29,14 +29,17 @@ namespace BL.Services
         {
             var user = await Users.Get(t => t.Email == email);
 
+            //var profile = Mapper.Map<ProfileDTO>(user);
             var profile = new ProfileDTO
             {
-                Email = user.Email,
-                UserName = user.Login,
                 Name = user.Name,
-                Surname = user.Surname,
+                Group = user.Group.Name,
+                Email = user.Email,
+                AccountVerified = user.Identity.AccountVerified,
+                GroupId = user.GroupId.Value,
                 Patronymic = user.Patronymic,
-                AccountVerified = user.Identity.AccountVerified
+                Surname = user.Surname,
+                UserName = user.Login
             };
 
             return profile;

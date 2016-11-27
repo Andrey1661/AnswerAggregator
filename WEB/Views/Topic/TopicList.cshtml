@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "TopicList";
+}
+@model IEnumerable<WEB.Models.Topic.TopicModel>
+
+<h2>TopicList</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        @foreach (var item in Model)
+        {
+            <div>
+                @Html.ActionLink(item.Title, "Topic", "Topic", new {topicId = item.Id}, null)
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        @Html.ActionLink("Создать тему", "Create", "Topic", new {subjectId = (Guid)ViewBag.SubjectId}, null)
+    </div>
+</div>

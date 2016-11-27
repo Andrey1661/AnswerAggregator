@@ -1,0 +1,17 @@
+﻿
+@model WEB.Models.Topic.CreatePostModel
+
+@using (Html.BeginForm("AddPost", "Topic", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.HiddenFor(t => t.TopicId)
+
+    <div>
+        @Html.TextAreaFor(t => t.Text, new {@class = "text-area"})
+    </div>
+    <div>
+        <a href="">Прикрепить файл</a>
+    </div>
+    <div>
+        <input type="submit" value="Добавить пост" class="btn btn-default"/>
+    </div>
+}

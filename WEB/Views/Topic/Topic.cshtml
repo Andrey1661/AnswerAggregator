@@ -1,20 +1,36 @@
 ﻿
-@model WEB.Models.Topic.TopicModel
+@using WEB.Models.Topic
+@using WEB.Utility
+@model TopicModel
 
 <div class="row">
+    <div class="col-md-4 topic-header">
+        <span>@Model.Title</span>
+    </div>
+</div>
+<hr/>
+<div class="row">
     <div class="col-md-8">
+        @foreach (var post in Model.Posts)
+        {
+            <div class="post-wrapper">
 
-        <div class="post-block">
+                <div class="col-md-3 post-info">
+                    <span>@post.Author</span>
+                    <br/>
+                    <span>@post.CreationDate.ToLongDateString()</span>
+                </div>
 
-            <div class="post-info">
+                <div class="col-md-5 post-content">
+                    <p>@post.Content</p>
+                </div>
 
             </div>
-
-            <div class="post-content">
-
-            </div>
-
-        </div>
-
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_AddPost", new CreatePostModel{TopicId = Model.Id})
     </div>
 </div>

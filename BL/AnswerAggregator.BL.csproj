@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\GroupIdentity.cs" />
     <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="DTO\SettingsDTO.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Enviroment\MessageSendResult.cs" />
     <Compile Include="Enviroment\OperationResult.cs" />
     <Compile Include="Enviroment\UserRoles.cs" />
+    <Compile Include="Infrastructure\AutoMapperInitializationModule.cs" />
     <Compile Include="Infrastructure\NinjectBLModule.cs" />
     <Compile Include="Infrastructure\DbInitialization\TestDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,13 +75,15 @@
     <Compile Include="Services\Interfaces\IMessageManager.cs" />
     <Compile Include="Services\Interfaces\IMessageSender.cs" />
     <Compile Include="Services\Interfaces\IProfileService.cs" />
-    <Compile Include="Services\Interfaces\IStudyDataService.cs" />
+    <Compile Include="Services\Interfaces\IRegistrationDataService.cs" />
+    <Compile Include="Services\Interfaces\ISubjectService.cs" />
     <Compile Include="Services\Interfaces\ITopicService.cs" />
     <Compile Include="Services\Interfaces\IUserService.cs" />
     <Compile Include="Services\EmailMessageManager.cs" />
     <Compile Include="Services\ProfileService.cs" />
-    <Compile Include="Services\StudyDataService.cs" />
+    <Compile Include="Services\RegistrationDataService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\SubjectService.cs" />
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

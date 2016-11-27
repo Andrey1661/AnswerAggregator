@@ -18,7 +18,7 @@ namespace BL.Infrastructure.DbInitialization
                 Id = id,
                 Login = "andrey",
                 Password = "1111",
-                Email = "andrey@mail.ru",
+                Email = "shedogubov.andrey96@gmail.com",
                 Name = "Андрей",
                 Surname = "Шедогубов",
                 Patronymic = "Александрович",

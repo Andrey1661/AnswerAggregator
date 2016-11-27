@@ -7,6 +7,8 @@ namespace BL.DTO
     {
         public Guid Id { get; set; }
 
+        public Guid GroupId { get; set; }
+
         public string Login { get; set; }
 
         public string Email { get; set; }

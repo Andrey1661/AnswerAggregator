@@ -10,7 +10,7 @@ namespace BL.Services.Interfaces
         Task<IEnumerable<TopicDTO>> GetTopicList(Guid subjectId);
         Task<TopicDTO> GetTopic(Guid topicId, int page, int pageSize);
         Task<IEnumerable<PostDTO>> GetPosts(Guid topicId, int page, int pageSize);
-        Task CreateTopic(string title, Guid subjectId);
+        Task CreateTopic(string title, Guid subjectId, string auhtor);
         Task AddPost(Guid topicId, PostDTO post);
         Task AddAnswer(Guid parentPostId, PostDTO post);
     }

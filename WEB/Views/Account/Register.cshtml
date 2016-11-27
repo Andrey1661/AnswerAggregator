@@ -13,7 +13,8 @@
 {
     Url = "/Account/Register/",
     HttpMethod = "Post",
-    OnSuccess = "success"
+    OnSuccess = "success",
+    OnFailure = "failure"
 }))
 {
     <div class="row" style="margin-top: 30px;">
@@ -68,7 +69,7 @@
             <div class="form-group">
                 @Html.Label("Университет", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    <select id="select-university" class="form-control">
+                    <select id="select-university" name="University" class="form-control">
                         <option value="0">Выберите унивеститет</option>
                     </select>
                 </div>
@@ -77,7 +78,7 @@
             <div class="form-group">
                 @Html.Label("Институт", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    <select id="select-institute" class="form-control">
+                    <select id="select-institute" name="Institute" class="form-control">
                         <option value="0">Выберите институт</option>
                     </select>
                 </div>
@@ -86,7 +87,7 @@
             <div class="form-group">
                 @Html.Label("Курс", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    <select id="select-course" class="form-control">
+                    <select id="select-course" name="Course" class="form-control">
                         <option value="0">Выберите курс</option>
                         <option>1</option>
                         <option>2</option>
@@ -100,7 +101,7 @@
             <div class="form-group">
                 @Html.Label("Группа", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-10">
-                    <select id="select-group" class="form-control">
+                    <select id="select-group" name="GroupId" class="form-control">
                         <option value="0">Выберите группу</option>
                     </select>
                 </div>
@@ -142,14 +143,18 @@
             }
         });
 
-        function addOptions(elemId, data) {
-
-            var elem = $("#" + elemId);
+        function clearSelect(elem) {
             for (var j = 0; j < elem.children().length; j++) {
                 if ($(elem.children()[j]).val() != 0) {
                     $(elem.children()[j]).remove();
-                }      
+                }
             }
+        }
+
+        function addOptions(elemId, data) {
+
+            var elem = $("#" + elemId);
+            clearSelect(elem);
 
             for (var i = 0; i < data.length; i++) {
                 var option = $("<option>");
@@ -159,13 +164,26 @@
             }
         };
 
+        function addGroups(data) {
+            console.log(data);
+            var elem = $("#select-group");
+            clearSelect(elem);
+
+            for (var i = 0; i < data.length; i++) {
+                var option = $("<option>");
+                option.html(data[i].name);
+                option.val(data[i].id);
+                elem.append(option);
+            }
+        }
+
         function getGroupList() {
             $.get("/Account/GetGroupList/",
                 {
                     institute: $("#select-institute option:selected").text(),
                     course: $("#select-course option:selected").text()
                 },
-                function (result) { addOptions("select-group", result) },
+                function (result) { addGroups(result) },
                 "JSON");
         }
 
@@ -209,8 +227,12 @@
         if (result.success == true) {
             alert("Регистрация прошла успешно. На электронный адрес, который вы указали, отправлено письмо со ссылкой для завершения регистрации");
         } else {
-            alert("Произошла ошибка");
+            alert(result.message);
         }
+    }
+
+    function failure(result) {
+        alert(result.message);
     }
     
 </script>

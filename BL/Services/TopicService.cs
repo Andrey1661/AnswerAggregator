@@ -69,19 +69,55 @@ namespace BL.Services
             return dto;
         }
 
-        public Task CreateTopic(string title, Guid subjectId)
+        public async Task CreateTopic(string title, Guid subjectId, string auhtor)
         {
-            throw new NotImplementedException();
+            var user = await UnitOfWork.GetRepository<UserProfile>().Get(t => t.Email == auhtor);
+
+            var topic = new Topic
+            {
+                Id = Guid.NewGuid(),
+                SubjectId = subjectId,
+                CreationDate = DateTime.Now,
+                Title = title,
+                AuthorId = user.Id
+            };
+
+            Topics.Insert(topic);
+            await UnitOfWork.SaveAsync();
         }
 
-        public Task AddPost(Guid topicId, PostDTO post)
+        public async Task AddPost(Guid topicId, PostDTO post)
         {
-            throw new NotImplementedException();
+            var author = await UnitOfWork.GetRepository<UserProfile>().Get(t => t.Email == post.Author);
+
+            var newPost = new Post
+            {
+                Content = post.Content,
+                Id = Guid.NewGuid(),
+                TopicId = topicId,
+                AuthorId = author.Id,
+                CreationDate = DateTime.Now
+            };
+
+            Posts.Insert(newPost);
+            await UnitOfWork.SaveAsync();
         }
 
-        public Task AddAnswer(Guid parentPostId, PostDTO post)
+        public async Task AddAnswer(Guid parentPostId, PostDTO post)
         {
-            throw new NotImplementedException();
+            var author = await UnitOfWork.GetRepository<UserProfile>().Get(t => t.Email == post.Author);
+
+            var newPost = new Post
+            {
+                Content = post.Content,
+                Id = Guid.NewGuid(),
+                ParentPostId = parentPostId,
+                AuthorId = author.Id,
+                CreationDate = DateTime.Now
+            };
+
+            Posts.Insert(newPost);
+            await UnitOfWork.SaveAsync();
         }
     }
 }

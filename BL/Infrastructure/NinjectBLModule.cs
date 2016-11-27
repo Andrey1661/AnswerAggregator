@@ -30,35 +30,24 @@ namespace BL.Infrastructure
             Database.SetInitializer(new TestDbInitializer());
         }
 
-        private void InitializeMapper()
-        {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<UserDTO, UserProfile>();
-                cfg.CreateMap<UserProfile, UserDTO>();
-
-                cfg.CreateMap<Post, PostDTO>();
-                cfg.CreateMap<PostDTO, Post>();
-            });
-        }
-
         public override void Load()
         {
-            InitializeMapper();
-
             if (Kernel == null) return;
 
+            Kernel.Bind<ISubjectService>().To<SubjectService>();
             Kernel.Bind<ITopicService>().To<TopicService>();
-            Kernel.Bind<IStudyDataService>().To<StudyDataService>();
+            Kernel.Bind<IRegistrationDataService>().To<RegistrationDataService>();
             Kernel.Bind<IProfileService>().To<ProfileService>();
+
             Kernel.Bind<IMessageManager>().To<EmailMessageManager>();
-            Kernel.Bind<IUnitOfWork>().To<RepositoryContext>();
+
             Kernel.Bind<IMessageSender>()
                 .To<EmailMessageSender>()
                 .WithConstructorArgument("emailAddress", _emailAddress)
                 .WithConstructorArgument("password", _password);
 
             Kernel.Bind<ILogger>().To<ConsoleLogger>();
+            Kernel.Bind<IUnitOfWork>().To<RepositoryContext>();
             Kernel.Bind<ApplicationContext>().ToSelf().WithConstructorArgument(_connectionString);
             Kernel.Bind<DbContext>().To<ApplicationContext>().WithConstructorArgument(_connectionString);
         }

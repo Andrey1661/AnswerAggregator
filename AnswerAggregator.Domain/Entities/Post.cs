@@ -13,13 +13,15 @@ namespace AnswerAggregator.Domain.Entities
 
         public DateTime CreationDate { get; set; }
 
+        public bool Deleted { get; set; }
+
         [ForeignKey("Topic")]
         public Guid TopicId { get; set; }
 
         public virtual Topic Topic { get; set; }
 
         [ForeignKey("ParentPost")]
-        public Guid ParentPostId { get; set; }
+        public Guid? ParentPostId { get; set; }
 
         public virtual Post ParentPost { get; set; }
 
