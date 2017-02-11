@@ -1,9 +1,0 @@
-Opened connection at 22.12.2016 22:33:14 +07:00
-
-SELECT Count(*)
-FROM INFORMATION_SCHEMA.TABLES AS t
-WHERE t.TABLE_SCHEMA + '.' + t.TABLE_NAME IN ('dbo.Departments','dbo.Groups','dbo.GroupSubjects','dbo.Subjects','dbo.Teachers','dbo.Institutes','dbo.Universities','dbo.Users','dbo.Posts','dbo.Topics','dbo.UserMessages','dbo.UserSettings','dbo.SubjectTeacher')
-    OR t.TABLE_NAME = 'EdmMetadata'-- Executing at 22.12.2016 22:33:14 +07:00
--- Completed in 165 ms with result: 13
-Closed connection at 22.12.2016 22:33:14 +07:00
-
