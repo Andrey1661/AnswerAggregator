@@ -7,11 +7,11 @@ namespace BL.Services.Interfaces
 {
     public interface ITopicService
     {
-        Task<IEnumerable<TopicDTO>> GetTopicList(Guid subjectId);
-        Task<TopicDTO> GetTopic(Guid topicId, int page, int pageSize);
-        Task<IEnumerable<PostDTO>> GetPosts(Guid topicId, int page, int pageSize);
-        Task CreateTopic(string title, Guid subjectId, string auhtor);
-        Task AddPost(Guid topicId, PostDTO post);
-        Task AddAnswer(Guid parentPostId, PostDTO post);
+        Task<IEnumerable<TopicInfo>> GetTopicList(Guid subjectId);
+        Task<TopicDto> GetTopic(Guid topicId, int page, int pageSize);
+        Task<IEnumerable<PostDto>> GetPosts(Guid topicId, int page, int pageSize);
+        Task CreateTopic(string title, Guid subjectId, Guid authorId);
+        Task AddPost(PostModel post);
+        Task EditPost(PostDto post);
     }
 }

@@ -1,0 +1,16 @@
+Opened connection at 22.12.2016 22:33:16 +07:00
+SELECT 
+    1 AS [C1], 
+    [Extent1].[Id] AS [Id], 
+    [Extent1].[Name] AS [Name], 
+    [Extent1].[DateOfEntering] AS [DateOfEntering], 
+    [Extent1].[InstituteId] AS [InstituteId], 
+    [Extent1].[DepartmentId] AS [DepartmentId], 
+    [Extent1].[Institute_Id] AS [Institute_Id], 
+    [Extent1].[Department_Id] AS [Department_Id]
+    FROM [dbo].[Groups] AS [Extent1]
+    WHERE [Extent1].[Id] = @EntityKeyValue1-- EntityKeyValue1: 'ddd45bdd-ed29-4390-abc3-e2fe7e771279' (Type = Guid)
+-- Executing at 22.12.2016 22:33:16 +07:00
+-- Completed in 50 ms with result: SqlDataReader
+Closed connection at 22.12.2016 22:33:16 +07:00
+

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BL.DTO
 {
-    // ReSharper disable once InconsistentNaming
-    public class TopicDTO
+    public class TopicDto : TopicInfo
     {
-        public Guid Id { get; set; }
-
-        public string Title { get; set; }
-
-        public ICollection<PostDTO> Posts { get; set; } 
+        public IEnumerable<PostDto> Posts { get; set; }
     }
 }

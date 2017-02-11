@@ -1,0 +1,16 @@
+Opened connection asynchronously at 22.12.2016 22:33:15 +07:00
+SELECT TOP (1) 
+    [Extent1].[Id] AS [Id], 
+    [Extent1].[Login] AS [Login], 
+    [Extent1].[Email] AS [Email], 
+    [Extent1].[Password] AS [Password], 
+    [Extent1].[Name] AS [Name], 
+    [Extent1].[Surname] AS [Surname], 
+    [Extent1].[Patronymic] AS [Patronymic], 
+    [Extent1].[GroupId] AS [GroupId]
+    FROM [dbo].[Users] AS [Extent1]
+    WHERE [Extent1].[Email] = @p__linq__0-- p__linq__0: 'shedogubov.andrey96@gmail.com' (Type = String, Size = 4000)
+-- Executing asynchronously at 22.12.2016 22:33:16 +07:00
+-- Completed in 161 ms with result: SqlDataReader
+Closed connection at 22.12.2016 22:33:16 +07:00
+

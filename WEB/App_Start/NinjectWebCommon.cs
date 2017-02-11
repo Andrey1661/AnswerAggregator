@@ -1,4 +1,5 @@
 using System.Configuration;
+using System.IO;
 using AutoMapper;
 using BL.DTO;
 using BL.Infrastructure;
@@ -6,6 +7,7 @@ using BL.Services;
 using BL.Services.Interfaces;
 using Ninject.Modules;
 using WEB.Models.Account;
+using WEB.Models.Proflie;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WEB.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WEB.App_Start.NinjectWebCommon), "Stop")]
@@ -71,11 +73,13 @@ namespace WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["LocalDb"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
             string emailAddress = "suppservice.aa@gmail.com";
             string password = "fLicIaBitA";
+            string serverFilesPath = HttpRuntime.AppDomainAppPath;
+            string logsRoot = serverFilesPath;
 
-            var modules = new INinjectModule[] {new NinjectBLModule(connectionString, emailAddress, password)};
+            var modules = new INinjectModule[] { new NinjectBLModule(connectionString, emailAddress, password, serverFilesPath, logsRoot) };
 
             kernel.Load(modules);
 
@@ -86,8 +90,8 @@ namespace WEB.App_Start
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfile<AutoMapperInitializationModule>();
-                cfg.CreateMap<RegistrationModel, UserDTO>();
+                cfg.AddProfile<AutoMapperBlModule>();
+                cfg.AddProfile<AutoMapperWebModule>();
             });
         }
     }

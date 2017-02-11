@@ -50,26 +50,26 @@ namespace WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult SignOut(string returnUrl)
+        public ActionResult SignOut()
         {
             AuthenticationManager.SignOut();
-            return RedirectToLocalUrl(returnUrl);
+            return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Register()
+        public ActionResult Registration()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegistrationModel model)
+        public async Task<ActionResult> Registration(RegistrationModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var user = Mapper.Map<UserDTO>(model);
+            var user = Mapper.Map<UserModel>(model);
             var result = await _userService.CreateUser(user);
              
             if (result.Success)

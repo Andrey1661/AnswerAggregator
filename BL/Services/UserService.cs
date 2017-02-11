@@ -25,7 +25,7 @@ namespace BL.Services
             Identities = UnitOfWork.GetRepository<UserIdentity>();
         }
 
-        public async Task<OperationResult> CreateUser(UserDTO user)
+        public async Task<OperationResult> CreateUser(UserModel user)
         {
             var id = Guid.NewGuid();
             var identity = new UserIdentity {Id = id, Role = UserRoles.User.ToString()};
@@ -92,7 +92,8 @@ namespace BL.Services
 
         public async Task<UserLoginData> GetUserLoginData(string loginOrEmail)
         {
-            var user = await Profiles.Get(t => t.Login == loginOrEmail || t.Email == loginOrEmail);
+            var user =  await Profiles.Include(t => t.Identity)
+                .Get(t => t.Login == loginOrEmail || t.Email == loginOrEmail);
 
             return user != null
                 ? (UserLoginData) Mapper.Map(user, new UserLoginData(), typeof (UserProfile), typeof (UserLoginData))
@@ -101,9 +102,8 @@ namespace BL.Services
 
         public async Task<UserLoginData> GetUserLoginData(string loginOrEmail, string password)
         {
-            var user = await Profiles.Get(t => 
-                (t.Login == loginOrEmail || t.Email == loginOrEmail) && 
-                t.Password == password);
+            var user = await Profiles.Include(t => t.Identity).
+                Get(t => (t.Login == loginOrEmail || t.Email == loginOrEmail) && t.Password == password);
 
             return user != null
                 ? (UserLoginData)Mapper.Map(user, new UserLoginData(), typeof(UserProfile), typeof(UserLoginData))
@@ -168,7 +168,7 @@ namespace BL.Services
 
         public async Task<OperationResult> ResetUserPassword(Guid token, string newPassword)
         {
-            var identity = await Identities.Get(t => t.PasswordResetToken == token, "Profile");
+            var identity = await Identities.Get(t => t.PasswordResetToken == token);
 
             identity.Profile.Password = newPassword;
             identity.PasswordResetToken = null;

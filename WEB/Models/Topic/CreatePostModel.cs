@@ -12,5 +12,10 @@ namespace WEB.Models.Topic
         public string Text { get; set; }
 
         public IEnumerable<HttpPostedFileBase> AttachedFiles { get; set; }
+
+        public CreatePostModel()
+        {
+            AttachedFiles = new List<HttpPostedFileBase>();
+        }
     }
 }

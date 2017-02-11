@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnswerAggregator.Domain.Entities;
+using AnswerAggregator.Domain.Repositories;
 using AnswerAggregator.Domain.Repositories.Interfaces;
 using BL.DTO;
 using BL.Services.Interfaces;
@@ -23,7 +24,7 @@ namespace BL.Services
             Groups = UnitOfWork.GetRepository<Group>();
         }
 
-        public async Task<IEnumerable<SubjectDTO>> GetSubjects(Guid groupId, int semester)
+        public async Task<IEnumerable<SubjectIdentity>> GetSubjects(Guid groupId, int semester)
         {
             var subjects =
                 await Subjects.GetList(
@@ -31,11 +32,11 @@ namespace BL.Services
                         .Select(gs => gs.GroupId)
                         .Contains(groupId));
 
-            var model = subjects.Select(t => new SubjectDTO
+            var model = subjects.Select(t => new SubjectIdentity
             {
                 Id = t.Id,
                 Name = t.Name
-            });
+            }).ToList();
 
             return model;
         }

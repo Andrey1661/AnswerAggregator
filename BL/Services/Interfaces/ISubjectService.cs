@@ -7,6 +7,6 @@ namespace BL.Services.Interfaces
 {
     public interface ISubjectService
     {
-        Task<IEnumerable<SubjectDTO>> GetSubjects(Guid groupId, int semester);
+        Task<IEnumerable<SubjectIdentity>> GetSubjects(Guid groupId, int semester);
     }
 }

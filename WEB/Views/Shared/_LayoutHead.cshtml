@@ -1,5 +1,4 @@
-﻿@using WEB.Models.Account
-
+﻿
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -18,19 +17,22 @@
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a>Администрирование</a>
+                    </li>
+                }
                 <li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Ajax.ActionLink("Выход", "SignOut", "Account", null, new AjaxOptions
-                        {
-                            OnSuccess = "updateHead"
-                        });
+                        @Html.ActionLink("Выход", "SignOut", "Account")
                     }
                     else
                     {
                         @Ajax.ActionLink("Войти", "Login", "Account", null, new AjaxOptions
                         {
-                            HttpMethod = "GET", 
+                            HttpMethod = "GET",
                             UpdateTargetId = "login-box",
                             InsertionMode = InsertionMode.Replace,
                             OnBegin = "checkDropdown",

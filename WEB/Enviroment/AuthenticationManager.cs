@@ -13,7 +13,7 @@ namespace WEB.Enviroment
     {
         public static void SetCookie(string userName, bool persistent, UserData data)
         {
-            var encodedUserData = CookieHelper.EncodeData(data);
+            var encodedUserData = CookieHelper.EncodeUserData(data);
 
             var ticket = new FormsAuthenticationTicket(
                 1,

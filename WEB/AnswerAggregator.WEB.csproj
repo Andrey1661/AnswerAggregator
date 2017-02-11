@@ -136,6 +136,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperWebModule.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -159,12 +160,13 @@
     <Compile Include="Models\Proflie\UserSettingsModel.cs" />
     <Compile Include="Models\Topic\CreatePostModel.cs" />
     <Compile Include="Models\Topic\CreateTopicModel.cs" />
-    <Compile Include="Models\Topic\PostModel.cs" />
+    <Compile Include="Models\Topic\PostViewModel.cs" />
     <Compile Include="Models\Topic\SubjectModel.cs" />
-    <Compile Include="Models\Topic\TopicModel.cs" />
+    <Compile Include="Models\Topic\TopicViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\CookieHelper.cs" />
     <Compile Include="Utility\HtmlExtensions.cs" />
+    <Compile Include="Utility\PostedFileExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\LocalDb.mdf" />
@@ -174,6 +176,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\background.png" />
+    <Content Include="Content\Images\no-avatar.jpg" />
     <Content Include="Content\Styles\Layout.css" />
     <Content Include="Content\Styles\Shared.css" />
     <Content Include="Content\Styles\Topic.css" />
@@ -207,7 +210,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Registration.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginBox.cshtml" />

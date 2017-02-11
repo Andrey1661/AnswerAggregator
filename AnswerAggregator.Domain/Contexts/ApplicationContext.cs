@@ -1,9 +1,10 @@
 ﻿using System.Data.Entity;
-using System.Linq;
 using AnswerAggregator.Domain.Entities;
+using AnswerAggregator.Domain.Infrastructure;
 
 namespace AnswerAggregator.Domain.Contexts
 {
+    [DbConfigurationType(typeof(CustomDbConfiguration))]
     public class ApplicationContext : DbContext
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
@@ -18,10 +19,13 @@ namespace AnswerAggregator.Domain.Contexts
         public DbSet<Group> Groups { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<GroupSubject> GroupSubjects { get; set; } 
+        public DbSet<GroupSubject> GroupSubjects { get; set; }
 
         public ApplicationContext(string connectionString)
-            : base(connectionString) { }
+            : base(connectionString)
+        {
+            Configuration.ProxyCreationEnabled = true;
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,7 +35,6 @@ namespace AnswerAggregator.Domain.Contexts
             modelBuilder.Configurations.Add(new UserMessageConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());
             modelBuilder.Configurations.Add(new DepratmentConfiguration());
-
         }
     }
 }

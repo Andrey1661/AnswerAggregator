@@ -1,0 +1,15 @@
+Opened connection asynchronously at 22.12.2016 22:33:16 +07:00
+SELECT 
+    [Extent1].[Id] AS [Id], 
+    [Extent1].[Name] AS [Name]
+    FROM [dbo].[Subjects] AS [Extent1]
+    WHERE  EXISTS (SELECT 
+        1 AS [C1]
+        FROM [dbo].[GroupSubjects] AS [Extent2]
+        WHERE ([Extent1].[Id] = [Extent2].[SubjectId]) AND ([Extent2].[SemesterNumber] = @p__linq__0) AND ([Extent2].[GroupId] = @p__linq__1)
+    )-- p__linq__0: '5' (Type = Int32, IsNullable = false)
+-- p__linq__1: 'ddd45bdd-ed29-4390-abc3-e2fe7e771279' (Type = Guid, IsNullable = false)
+-- Executing asynchronously at 22.12.2016 22:33:16 +07:00
+-- Completed in 6 ms with result: SqlDataReader
+
+Closed connection at 22.12.2016 22:33:16 +07:00

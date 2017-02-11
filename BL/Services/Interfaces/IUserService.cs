@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BL.DTO;
 using BL.Enviroment;
@@ -8,7 +7,7 @@ namespace BL.Services.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task<OperationResult> CreateUser(UserDTO user);
+        Task<OperationResult> CreateUser(UserModel user);
 
         Task<UserLoginData> GetUserLoginData(Guid id);
         Task<UserLoginData> GetUserLoginData(string loginOrEmail);
