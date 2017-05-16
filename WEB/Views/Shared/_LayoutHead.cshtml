@@ -1,0 +1,89 @@
+﻿
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            @Html.ActionLink("Answer Aggregator", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+                <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        @Html.ActionLink("Профиль", "Index", "Profile")
+                    </li>
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a>Администрирование</a>
+                    </li>
+                }
+                <li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Выход", "SignOut", "Account")
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Войти", "Login", "Account", null, new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "login-box",
+                            InsertionMode = InsertionMode.Replace,
+                            OnBegin = "checkDropdown",
+                            OnSuccess = "dropdownLoaded"
+                        }, new {id = "dropdown-link"})
+                        <div id="login-box" class="dropdown-box-wrapper hidden"></div>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var ddLoaded = false;
+
+    function updateHead() {
+        $("#layout-head").load("/Shared/LayoutHead/");
+    }
+
+    function dropdownLoaded() {
+        toggleDropdown();
+        ddLoaded = true;      
+    }
+
+    function checkDropdown() {
+        if (ddLoaded) {
+            toggleDropdown();
+            return false;
+        }
+        return true;
+    }
+
+    function toggleDropdown() {
+        $(".dropdown-box-wrapper").toggleClass("hidden");
+    }
+
+    $(document).ready(function () {
+
+        $("#dropdown-link").mouseup(function(event) {
+            event.stopPropagation();
+        });
+
+        $(".dropdown-box-wrapper").mouseup(function (event) {
+            event.stopPropagation();
+        });
+
+        $(document).mouseup(function() {
+            $(".dropdown-box-wrapper").addClass("hidden");
+        });
+
+    });
+</script>

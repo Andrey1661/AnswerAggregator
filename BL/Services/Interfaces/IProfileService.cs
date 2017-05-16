@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BL.DTO;
+using BL.Enviroment;
 
 namespace BL.Services.Interfaces
 {
     public interface IProfileService
     {
-        Task<ProfileDTO> GetProfile(string userName);
-        Task<SettingsDTO> GetSettings(string userName);
+        Task<OperationResult> SetAvatar(string userName, FileModel file);
+
+        Task<ProfileDto> GetProfile(string userName);
+        Task<SettingsDto> GetSettings(string userName);
     }
 }

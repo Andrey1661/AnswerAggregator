@@ -4,22 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using AnswerAggregator.Domain.Entities;
 using AnswerAggregator.Domain.Repositories.Interfaces;
+using BL.DTO;
 using BL.Services.Interfaces;
 
 namespace BL.Services
 {
-    public class StudyDataService : ServiceBase, IStudyDataService
+    public class RegistrationDataService : ServiceBase, IRegistrationDataService
     {
         protected readonly IRepository<University> Universities;
         protected readonly IRepository<Institute> Institutes;
         protected readonly IRepository<Group> Groups; 
 
-        public StudyDataService(IUnitOfWork unitOfWork)
+        public RegistrationDataService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
-            Universities = UnitOfWork.Universities;
-            Institutes = UnitOfWork.Institutes;
-            Groups = UnitOfWork.Groups;
+            Universities = UnitOfWork.GetRepository<University>();
+            Institutes = UnitOfWork.GetRepository<Institute>();
+            Groups = UnitOfWork.GetRepository<Group>();
         }
 
         public async Task<IEnumerable<string>> GetUniversities()
@@ -37,7 +38,7 @@ namespace BL.Services
             return (await Institutes.GetList(t => t.University.Name == universityName)).Select(t => t.Name);
         }
 
-        public async Task<IEnumerable<string>> GetGroups(string instituteName, int course)
+        public async Task<IEnumerable<GroupIdentity>> GetGroups(string instituteName, int course)
         {
             if (string.IsNullOrWhiteSpace(instituteName))
                 throw new ArgumentNullException("instituteName", "Не задано название института");
@@ -46,7 +47,7 @@ namespace BL.Services
 
             return (await Groups.GetList(
                 t => t.Institute.Name == instituteName && t.DateOfEntering.Year == yearOfEntering))
-                .Select(t => t.Name);
+                .Select(t => new GroupIdentity{Id = t.Id, Name = t.Name});
         }
     }
 }

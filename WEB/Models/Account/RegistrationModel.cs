@@ -21,5 +21,7 @@ namespace WEB.Models.Account
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
+
+        public string GroupId { get; set; }
     }
 }

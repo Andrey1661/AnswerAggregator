@@ -1,12 +1,10 @@
-﻿@using System.Web.UI.WebControls
-@using WEB.Models.Account
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
+    <title>AnswerAggregator - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -14,76 +12,23 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
-<body style="background-image: url(../../Content/Images/use_your_illusion.png)">
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("Имя приложения", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Профиль", "Index", "Profile")</li>
-                }
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Выйти из системы", "SignOut", "Account", new { returnUrl = Request.Url.PathAndQuery }, null)</li>
-                }
-                else
-                {
-                    <li>
-                        <a id="link-login">Войти</a>
-                        <div id="login-box" class="login-box-wrapper hidden">
-                            @Html.Partial("_LoginBox", new LoginModel())
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="container body-content">
-    <div style="background: linear-gradient(to bottom, #FFFFFF, #DBD7D2); border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; box-shadow: 4px 24px 39px -21px #000000" class="container">
 
+<body>
+
+<div id="layout-head">
+    @Html.Partial("_LayoutHead")
+</div>
+
+<div class="container body-content">
+    
     @RenderBody()
-    <hr/>
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
-    </div>
+
+    <footer>
+    </footer>
+
 </div>
 
 @RenderSection("scripts", required: false)
+
 </body>
 </html>
-
-<script>
-
-    $(document).ready(function() {
-
-        $(document).click(function () {
-            $("#login-box").addClass("hidden");
-        });
-
-        $("#link-login").click(function (event) {
-            event.stopPropagation();
-            $("#login-box").toggleClass("hidden");
-        });
-
-        $(".login-box-wrapper").click(function(event) {
-            event.stopPropagation();
-        });
-
-    });
-</script>

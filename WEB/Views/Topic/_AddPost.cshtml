@@ -1,0 +1,106 @@
+﻿
+@model WEB.Models.Topic.CreatePostModel
+
+<style>
+    
+    .text-area {
+        border: none;
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .textarea-wrapper {
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .textarea-header,
+    .textarea-footer {
+        padding: 5px;
+    }
+
+    .textarea-wrapper > div {
+        background: white;
+    }
+
+    .textarea-header {
+        height: 40px;
+        background: lightgray !important;
+    }
+
+</style>
+
+@using (Html.BeginForm("AddPost", "Topic", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    @Html.HiddenFor(t => t.TopicId)
+
+    <div class="textarea-wrapper">
+        <div class="textarea-header">
+            
+        </div>
+        <div class="textarea-body">
+            @Html.TextAreaFor(t => t.Text, new {@class = "text-area"})
+        </div>
+        <div class="textarea-footer">
+            <a id="add-file-link" href="">Прикрепить файл</a>
+            <div id="attached-files-block" class="hidden"></div>
+            <div id="attached-files-preview"></div>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Добавить пост" class="btn btn-default"/>
+    </div>
+}
+
+<script>
+
+    var fileCounter = 0;
+
+    function validateFile(file) {
+        return true;
+    }
+
+    function createFilePreview(file) {
+        var container = $('#attached-files-preview');
+        var block = $('<div>');
+        var span = $('<span>');
+
+        span.html(file.name + ' - ' + file.size);
+
+        block.append(span);
+        container.append(block);
+    }
+
+    function inputChangeHandler() {
+        var file = $(this).prop('files')[0];
+
+        if (validateFile(file)) {
+            var container = $('#attached-files-block');
+            container.append(this);
+            fileCounter++;
+            createFilePreview(file);
+        }
+    }
+
+    function createFileInput() {
+
+        var input = $('<input>');
+
+        input.attr('type', 'file');
+        input.attr('name', 'AttachedFiles[' + fileCounter + ']');
+        input.change(inputChangeHandler);
+
+        return input;
+    }
+
+    $(document).ready(function() {
+
+        $("#add-file-link").click(function(event) {
+            event.preventDefault();
+
+            var input = createFileInput();
+            input.click();
+        });
+    });
+
+</script>

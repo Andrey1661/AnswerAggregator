@@ -1,22 +1,43 @@
 ﻿
+body {
+    background-image: url('../../Content/Images/background.png');
+}
+
+.body-content {
+    background: linear-gradient(to bottom, #FFFFFF, #DBD7D2); 
+    border-bottom-left-radius: 15px; 
+    border-bottom-right-radius: 15px;
+    box-shadow: 4px 24px 39px -21px #000000;
+    margin-top: 50px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+
 #link-login {
     cursor: pointer;
 }
 
-.login-box-wrapper {
+.dropdown-box-wrapper {
     position: absolute;
     display: block;
     left: -175px;
 
     margin-top: 17px;
-    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 
     background-color: #222222;
     border: 1px solid #101010;
     border-radius: 5px;
 }
 
-.login-box-wrapper::before {
+.dropdown-box-wrapper::before {
     content: '';
     position: absolute;
     width: 0;
@@ -25,23 +46,45 @@
     border-top: 0;
     border-color: transparent transparent #222222 transparent;
     bottom: 100%;
-    right: 34px;
+    right: 17px;
 }
 
-.login-box-wrapper div label {
+.dropdown-box-wrapper div label {
     color: #999999;
     font-weight: normal;
 }
 
-.login-box-wrapper div input[type = "text"],
-.login-box-wrapper div input[type = "email"],
-.login-box-wrapper div input[type = "password"] {
+.dropdown-box-wrapper div input[type = "text"],
+.dropdown-box-wrapper div input[type = "email"],
+.dropdown-box-wrapper div input[type = "password"] {
     width: 220px;
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+.dropdown-box-wrapper hr {
+    margin: 5px 0 5px 0;
+}
+
+.dropdown-box-wrapper label {
+    margin-bottom: 2px;
+    margin-top: 5px;
+}
+
+.dropdown-box-wrapper label:first-child {
+    margin-top: 2px;
+}
+
+.dropdown-box-wrapper .btn {
+    width: 90px;
+    height: 28px;
+    border-radius: 3px;
+    padding: 0;
 }
 
 form .login-textbox-block {
     margin-top: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 input[type = "text"],

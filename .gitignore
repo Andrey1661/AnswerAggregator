@@ -26,6 +26,8 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+WEB/EfLogs/
+WEB/Posts/
 ###################
 # Web publish log #
 ###################

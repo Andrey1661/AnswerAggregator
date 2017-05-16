@@ -21,21 +21,23 @@ namespace BL.Services
         {
             MessageManager = messageManager;
 
-            Profiles = UnitOfWork.UserProfiles;
-            Identities = UnitOfWork.UserIdentities;
+            Profiles = UnitOfWork.GetRepository<UserProfile>();
+            Identities = UnitOfWork.GetRepository<UserIdentity>();
         }
 
-        public async Task<OperationResult> CreateUser(UserDTO user)
+        public async Task<OperationResult> CreateUser(UserModel user)
         {
             var id = Guid.NewGuid();
-            var identity = new UserIdentity { Id = id };
-
-            var profile = Mapper.Map<UserProfile>(user);
-            profile.Id = id;
-            profile.Identity = identity;
+            var identity = new UserIdentity {Id = id, Role = UserRoles.User.ToString()};
 
             try
             {
+                var profile = new UserProfile
+                {
+                    Id = id,
+                    Identity = identity
+                };
+                Mapper.Map(user, profile);
                 Profiles.Insert(profile);
                 await UnitOfWork.SaveAsync();
 
@@ -49,41 +51,65 @@ namespace BL.Services
             }
         }
 
+
+        public async Task<OperationResult> ConfirmAccount(Guid token)
+        {
+            var identity = await Identities.Get(t => t.AccountVerificationToken == token);
+
+            if (identity == null)
+            {
+                var result = new OperationResult(false);
+                result.Errors.Add("Объект с данным ключом не найден");
+                return result;
+            }
+
+            identity.AccountVerificationToken = null;
+            identity.AccountVerified = true;
+
+            try
+            {
+                UnitOfWork.Update(identity);
+                await UnitOfWork.SaveAsync();
+
+                return new OperationResult(true);
+            }
+            catch (Exception ex)
+            {
+                var result = new OperationResult(false);
+                result.Errors.Add(ex.Message);
+
+                return result;
+            }  
+        }
+
+
         public async Task<UserLoginData> GetUserLoginData(Guid id)
         {
             var user = await Profiles.Get(id);
 
-            if (user != null)
-            {
-                return new UserLoginData
-                {
-                    Login = user.Login,
-                    Email = user.Email,
-                    Role = user.Identity.Role
-                };
-            }
+            return user != null ? Mapper.Map<UserLoginData>(user) : null;
+        }
 
-            return null;
+        public async Task<UserLoginData> GetUserLoginData(string loginOrEmail)
+        {
+            var user =  await Profiles.Include(t => t.Identity)
+                .Get(t => t.Login == loginOrEmail || t.Email == loginOrEmail);
+
+            return user != null
+                ? (UserLoginData) Mapper.Map(user, new UserLoginData(), typeof (UserProfile), typeof (UserLoginData))
+                : null;
         }
 
         public async Task<UserLoginData> GetUserLoginData(string loginOrEmail, string password)
         {
-            var user = await Profiles.Get(t => 
-                (t.Login == loginOrEmail || t.Email == loginOrEmail) && 
-                t.Password == password);
+            var user = await Profiles.Include(t => t.Identity).
+                Get(t => (t.Login == loginOrEmail || t.Email == loginOrEmail) && t.Password == password);
 
-            if (user != null)
-            {
-                return new UserLoginData
-                {
-                    Login = user.Login,
-                    Email = user.Email,
-                    Role = user.Identity.Role
-                };
-            }
-
-            return null;
+            return user != null
+                ? (UserLoginData)Mapper.Map(user, new UserLoginData(), typeof(UserProfile), typeof(UserLoginData))
+                : null;
         }
+
 
         public async Task<bool> CheckLoginOccuped(string login)
         {
@@ -97,6 +123,88 @@ namespace BL.Services
             var user = await Profiles.Get(t => t.Email == email);
 
             return user != null;
+        }
+
+
+        public async Task<Guid?> CreateVerificationToken(Guid id)
+        {
+            var identity = await Identities.Get(id);
+            return await CreateVerificationToken(identity);
+        }
+
+        public async Task<Guid?> CreateVerificationToken(string loginOrEmail)
+        {
+            var identity = await Identities.Get(t => t.Profile.Login == loginOrEmail || t.Profile.Email == loginOrEmail);
+            return await CreateVerificationToken(identity);
+        }
+
+        public async Task<OperationResult> CheckUserPasswordResetToken(Guid token)
+        {
+            var identity = await Identities.Get(t => t.PasswordResetToken == token);
+
+            if (identity != null)
+            {
+                return new OperationResult(true);
+            }
+
+            var result = new OperationResult(false);
+            result.Errors.Add("Ключ сброса пароля недействителен");
+
+            return result;
+        }
+
+
+        public async Task<Guid?> CreatePasswordResetToken(Guid id)
+        {
+            var identity = await Identities.Get(id);
+            return await CreatePasswordResetToken(identity);
+        }
+
+        public async Task<Guid?> CreatePasswordResetToken(string loginOrEmail)
+        {
+            var identity = await Identities.Get(t => t.Profile.Login == loginOrEmail || t.Profile.Email == loginOrEmail);
+            return await CreatePasswordResetToken(identity);
+        }
+
+        public async Task<OperationResult> ResetUserPassword(Guid token, string newPassword)
+        {
+            var identity = await Identities.Get(t => t.PasswordResetToken == token);
+
+            identity.Profile.Password = newPassword;
+            identity.PasswordResetToken = null;
+
+            try
+            {
+                UnitOfWork.Update(identity);
+                await UnitOfWork.SaveAsync();
+
+                return new OperationResult(true);
+            }
+            catch (Exception ex)
+            {
+                var result = new OperationResult(false);
+                result.Errors.Add(ex.Message);
+
+                return result;
+            }            
+        }
+
+
+        public async Task<OperationResult> SendPasswordResetMessage(string code, string returnUrl)
+        {
+            try
+            {
+                await MessageManager.SendPasswordResetMessage(code, returnUrl);
+
+                return new OperationResult(true);
+            }
+            catch (Exception ex)
+            {
+                var result = new OperationResult(false);
+                result.Errors.Add(ex.Message);
+
+                return result;
+            }
         }
 
         public async Task<OperationResult> SendConfirmationMessage(string code, string returnUrl)
@@ -116,36 +224,7 @@ namespace BL.Services
             }
         }
 
-        public async Task<Guid?> CreateVerificationToken(Guid id)
-        {
-            var identity = await Identities.Get(id);
-            return await CreateVerificationToken(identity);
-        }
 
-        public async Task<Guid?> CreateVerificationToken(string loginOrEmail)
-        {
-            var identity = await Identities.Get(t => t.Profile.Login == loginOrEmail || t.Profile.Email == loginOrEmail);
-            return await CreateVerificationToken(identity);
-        }
-
-        public async Task<OperationResult> ConfirmAccount(Guid token)
-        {
-            var identity = await Identities.Get(t => t.AccountVerificationToken == token);
-
-            if (identity == null)
-            {
-                var result = new OperationResult(false);
-                result.Errors.Add("Объект с данным ключом не найден");
-                return result;
-            }
-
-            identity.AccountVerificationToken = null;
-            identity.AccountVerified = true;
-            UnitOfWork.Update(identity);
-            await UnitOfWork.SaveAsync();
-
-            return new OperationResult(true);
-        }
 
         private async Task<Guid?> CreateVerificationToken(UserIdentity identity)
         {
@@ -163,10 +242,21 @@ namespace BL.Services
             return identity.AccountVerificationToken;
         }
 
-        public void Dispose()
+        private async Task<Guid?> CreatePasswordResetToken(UserIdentity identity)
         {
-            if (UnitOfWork != null)
-                UnitOfWork.Dispose();
+            var token = Guid.NewGuid();
+
+            if (identity == null)
+                return null;
+
+            if (identity.PasswordResetToken == null)
+            {
+                identity.PasswordResetToken = token;
+                UnitOfWork.Update(identity);
+                await UnitOfWork.SaveAsync();
+            }
+
+            return identity.PasswordResetToken;
         }
     }
 }

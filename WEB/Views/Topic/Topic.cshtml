@@ -1,0 +1,87 @@
+﻿
+@using WEB.Models.Topic
+@model TopicViewModel
+
+
+<style>
+    
+    .author-avatar-block {
+        width: 100px;
+        margin: 3px;
+    }
+
+    .author-avatar-block > img {
+        width: inherit;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-md-4 topic-header">
+        <h2>@Model.Title</h2>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+    
+    <div class="col-md-9">
+        <div class="row">
+                <div class="posts-container">
+                    @if (Model == null || !Model.Posts.Any())
+                    {
+                        <h3>В данной теме пока нет записей</h3>
+                    }
+                    else
+                    {
+                        foreach (var post in Model.Posts)
+                        {
+                            <div class="post-wrapper row">
+                                <div class="col-md-4 post-info">
+                                    <div class="author-avatar-block">
+                                        <img src='@Url.Content("../" + post.Author.Avatar)'/>
+                                    </div>
+                                    <div>
+                                        <span>@post.Author.UserName</span>
+                                    </div>
+                                    <div>
+                                        <span>@post.Author.Role</span>
+                                    </div>
+                                    <span>@post.CreationDate.ToLongDateString()</span>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="post-content">
+                                        <p style="word-wrap: break-word">@post.Content</p>
+                                    </div>
+                                    <div>
+                                        @foreach (var file in post.AttachedFiles)
+                                        {
+                                            <div>
+                                                @Html.ActionLink(string.Format("{0} - {1}", file.Name, file.Size), "GetFile", "Topic", 
+                                                                    new {downloadName = file.Name, path = file.VirtualPath}, null)
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                @Html.Partial("_AddPost", new CreatePostModel {TopicId = Model.Id})
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        @for (var i = 0; i < 100; i++)
+        {
+            <span>Тестовая запись</span>
+        }
+    </div>
+
+</div>

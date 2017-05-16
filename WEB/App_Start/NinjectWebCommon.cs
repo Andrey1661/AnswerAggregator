@@ -1,8 +1,13 @@
 using System.Configuration;
+using System.IO;
+using AutoMapper;
+using BL.DTO;
 using BL.Infrastructure;
 using BL.Services;
 using BL.Services.Interfaces;
 using Ninject.Modules;
+using WEB.Models.Account;
+using WEB.Models.Proflie;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WEB.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WEB.App_Start.NinjectWebCommon), "Stop")]
@@ -52,6 +57,7 @@ namespace WEB.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                CreateMappings();
                 return kernel;
             }
             catch
@@ -70,12 +76,23 @@ namespace WEB.App_Start
             string connectionString = ConfigurationManager.ConnectionStrings["SqlServer"].ConnectionString;
             string emailAddress = "suppservice.aa@gmail.com";
             string password = "fLicIaBitA";
+            string serverFilesPath = HttpRuntime.AppDomainAppPath;
+            string logsRoot = serverFilesPath;
 
-            var modules = new INinjectModule[] {new NinjectBLModule(connectionString, emailAddress, password)};
+            var modules = new INinjectModule[] { new NinjectBLModule(connectionString, emailAddress, password, serverFilesPath, logsRoot) };
 
             kernel.Load(modules);
 
             kernel.Bind<IUserService>().To<UserService>();
-        }        
+        }
+
+        private static void CreateMappings()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<AutoMapperBlModule>();
+                cfg.AddProfile<AutoMapperWebModule>();
+            });
+        }
     }
 }

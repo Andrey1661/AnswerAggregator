@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -13,12 +14,29 @@ namespace AnswerAggregator.Domain.Repositories
         protected readonly DbContext Context;
         protected readonly DbSet<T> Set;
 
+        private IQueryable<T> _query; 
+
         public RepositoryBase(DbContext context)
         {
             Context = context;
             Set = Context.Set<T>();
-        } 
+            _query = Set.AsQueryable();
+        }
 
+
+        public IRepository<T> Include(string property)
+        {
+            _query = _query.Include(property);
+
+            return this;
+        }
+
+        public IRepository<T> Include<TResult>(Expression<Func<T, TResult>> propertyExpression)
+        {
+            _query = _query.Include(propertyExpression);
+
+            return this;
+        }
 
         public async Task<T> Get(Guid id)
         {
@@ -27,33 +45,23 @@ namespace AnswerAggregator.Domain.Repositories
 
         public async Task<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return await Set.FirstOrDefaultAsync(predicate);
+            return await _query.FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<T> Get(Expression<Func<T, bool>> predicate, string includeProperties)
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return await Set.Include(includeProperties).FirstOrDefaultAsync(predicate);
+            return await _query.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll(string includeProperties = null)
+        public async Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate)
         {
-            if (!string.IsNullOrWhiteSpace(includeProperties))
-            {
-                return await Set.Include(includeProperties).ToListAsync();
-            }
-
-            return await Set.ToListAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetList(Expression<Func<T, bool>> predicate, string includeProperties = null)
-        {
-            return await Set.Where(predicate).ToListAsync();
+            return await _query.Where(predicate).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, 
-            bool descending = false, string includeProperties = null)
+            bool descending = false)
         {
-            var result = Set.Where(predicate);
+            var result = _query.Where(predicate);
 
             if (descending)
             {
@@ -63,15 +71,14 @@ namespace AnswerAggregator.Domain.Repositories
         }
 
         public async Task<IEnumerable<T>> GetList<TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, 
-            int skip, int take, bool descending = false, string includeProperties = null)
+            int skip, int take, bool descending = false)
         {
-            var result = Set.Where(predicate);
+            var result = _query.Where(predicate);
 
             result = descending ? result.OrderByDescending(orderBy) : result.OrderBy(orderBy);
 
             return await result.Skip(skip).Take(take).ToListAsync();
         }
-
 
         public async Task<int> Count(Expression<Func<T, bool>> predicate = null)
         {

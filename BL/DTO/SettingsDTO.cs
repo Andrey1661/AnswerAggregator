@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL.DTO
 {
-    // ReSharper disable once InconsistentNaming
-    public class SettingsDTO
+    public class SettingsDto
     {
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WEB.Models.Topic;
 
 namespace WEB.Models.Proflie
 {
@@ -14,7 +15,7 @@ namespace WEB.Models.Proflie
         [Display(Name = "Электронный адрес")]
         public string Email { get; set; }
 
-        public string Avatar { get; set; }
+        public string AvatarLink { get; set; }
 
         public string Name { get; set; }
 
@@ -23,5 +24,7 @@ namespace WEB.Models.Proflie
         public string Patronymic { get; set; }
 
         public bool AccountVerified { get; set; }
+
+        public IEnumerable<SubjectModel> Subjects { get; set; }  
     }
 }

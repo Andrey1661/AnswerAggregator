@@ -6,38 +6,122 @@
 
 @model WEB.Models.Proflie.ProfileModel
 
-<h2>Profile</h2>
+<h2>@string.Format("{0} {1}", Model.Surname, Model.Name)</h2>
 
 <style>
     
+    .user-info,
+    .user-subjects,
+    .user-avatar-block {
+        margin: 5px;
+        margin-bottom: 10px;
+        padding: 5px;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+    }
+
     .profile-box {
-        float: left;
         min-width: 100px;
         margin-top: 20px;
     }
 
+    .user-avatar-block {
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    .user-avatar-block > img {
+        max-width: 100%;
+    }
+
+    .user-avatar-block > div {
+        text-align: center;
+    }
+
+    .hover-popup {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
 </style>
 
-<div class="profile-box">
 
-    <div>
-        @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
-        <div>
-            @Html.DisplayFor(t => t.UserName)
-        </div>
-    </div>
-    <div>
-        @Html.LabelFor(t => t.Email, new {@class = "control-label"})
-        <div>
-            @Html.DisplayFor(t => t.Email)
-        </div>
-    </div>
-    <div>
-        @Html.Label("ФИО", new {@class = "control-label"})
-        <div>
-            <p>@string.Format("{0} {1} {2}", Model.Surname, Model.Name, Model.Patronymic)</p>
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="user-avatar-block">
+                <img src='@(Model.AvatarLink ?? "../../Content/Images/no-avatar.jpg")'>
+                    <div class="hover-popup">
+                        <button id="btn-load-avatar" class="btn-link">Загрузить изображение</button>
+                        @if (Model.AvatarLink != null)
+                        {
+                            <div>
+                                @Html.ActionLink("Удалить изображение", "DeleteAvatar", "Profile")
+                            </div>
+                        }
+                    </div>
+                <img/>
+            </div>
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="row">
+            <div class="user-info">
+                <div>
+                    @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
+                    <div>
+                        @Html.DisplayFor(t => t.UserName)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(t => t.Email, new {@class = "control-label"})
+                    <div>
+                        @Html.DisplayFor(t => t.Email)
+                    </div>
+                </div>
+                <div>
+                    @Html.Label("ФИО", new {@class = "control-label"})
+                    <div>
+                        <p>@string.Format("{0} {1} {2}", Model.Surname, Model.Name, Model.Patronymic)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="row">
+            <div class="user-subjects">
+                <h4>Ваши предметы</h4>
+
+                @foreach (var item in Model.Subjects)
+                {
+                    <div>
+                        @Html.ActionLink(item.Name, "TopicList", "Topic", new { subjectId = item.Id }, null)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+
+    $(document).ready(function() {
+
+        $('#btn-load-avatar').click(function() {
+
+            var form = $("<form action='@Url.Action("SetAvatar")' method='post' enctype='multipart/form-data'>");
+            var input = $("<input type='file' name='file' accept='image/*'>");
+            form.append(input);
+
+            input.change(function() {
+                form.submit();
+            });
+
+            input.click();
+        });
+
+    });
+
+</script>
 

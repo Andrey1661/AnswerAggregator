@@ -28,5 +28,17 @@ namespace BL.Services
 
             await Sender.SendMessageAsync(code, block, subject);
         }
+
+        public async Task SendPasswordResetMessage(string code, string returnUrl)
+        {
+            string message = @"Для смены пароля перейжите по указанной ниже ссылке";
+            string linkText = "Ссылка для смены пароля";
+            string link = string.Format("<a href='{0}'>{1}</a>", returnUrl, linkText);
+
+            string block = string.Format("<div>{0} {1}</div>", message, link);
+            string subject = "Answer Aggregator - Восстановление пароля";
+
+            await Sender.SendMessageAsync(code, block, subject);
+        }
     }
 }
