@@ -6,19 +6,19 @@ using AnswerAggregator.Domain.Entities;
 
 namespace BL.Infrastructure.DbInitialization
 {
-    class TestDbInitializer : DropCreateDatabaseAlways<ApplicationContext>
+    class TestDbInitializer : CreateDatabaseIfNotExists<ApplicationContext>
     {
         protected override void Seed(ApplicationContext context)
         {
-            var id = Guid.NewGuid();
-            var id2 = Guid.NewGuid();
+            var id = Guid.Parse("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA");
+            var id2 = Guid.Parse("BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB");
 
             var user = new UserProfile
             {
                 Id = id,
                 Login = "andrey",
                 Password = "1111",
-                Email = "andrey@mail.ru",
+                Email = "shedogubov.andrey96@gmail.com",
                 Name = "Андрей",
                 Surname = "Шедогубов",
                 Patronymic = "Александрович",

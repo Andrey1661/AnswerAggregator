@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+@model WEB.Models.Topic.CreateTopicModel
+
+<h2>Создать тему</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Create", "Topic", FormMethod.Post))
+        {
+            @Html.HiddenFor(t => t.SubjectId)
+
+            <div>
+                @Html.TextBoxFor(t => t.Title)
+            </div>
+
+            <div>
+                <input type="submit" value="Создать тему" class="btn btn-info"/>
+            </div>
+            <div>
+                @Html.ActionLink("К списку тем", "TopicList", new {subjectId = Model.SubjectId})
+            </div>
+        }
+    </div>
+</div>

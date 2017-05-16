@@ -20,7 +20,6 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -137,33 +136,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperWebModule.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModeratorController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Enviroment\AuthenticationManager.cs" />
+    <Compile Include="Enviroment\UserData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\ForgotPasswordModel.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegistrationModel.cs" />
+    <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Proflie\ProfileModel.cs" />
     <Compile Include="Models\Proflie\UserSettingsModel.cs" />
-    <Compile Include="Models\Topic\PostModel.cs" />
+    <Compile Include="Models\Topic\CreatePostModel.cs" />
+    <Compile Include="Models\Topic\CreateTopicModel.cs" />
+    <Compile Include="Models\Topic\PostViewModel.cs" />
     <Compile Include="Models\Topic\SubjectModel.cs" />
-    <Compile Include="Models\Topic\TopicModel.cs" />
+    <Compile Include="Models\Topic\TopicViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\CookieHelper.cs" />
+    <Compile Include="Utility\HtmlExtensions.cs" />
+    <Compile Include="Utility\PostedFileExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\LocalDb.mdf" />
+    <Content Include="App_Data\LocalDb_log.ldf">
+      <DependentUpon>LocalDb.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\background.png" />
+    <Content Include="Content\Images\no-avatar.jpg" />
     <Content Include="Content\Styles\Layout.css" />
     <Content Include="Content\Styles\Shared.css" />
     <Content Include="Content\Styles\Topic.css" />
@@ -172,10 +185,6 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="fonts\NotoSans-Bold.ttf" />
-    <Content Include="fonts\NotoSans-BoldItalic.ttf" />
-    <Content Include="fonts\NotoSans-Italic.ttf" />
-    <Content Include="fonts\NotoSans-Regular.ttf" />
     <None Include="Properties\PublishProfiles\Andrey.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -201,17 +210,19 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-
+    <Content Include="Views\Account\Registration.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginBox.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordDialog.cshtml" />
     <Content Include="Views\Topic\Topic.cshtml" />
     <Content Include="Views\Shared\_LayoutHead.cshtml" />
+    <Content Include="Views\Topic\TopicList.cshtml" />
+    <Content Include="Views\Topic\Create.cshtml" />
+    <Content Include="Views\Topic\_AddPost.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\Home\" />
     <Folder Include="Models\Shared\" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
 using WEB.Enviroment;
@@ -10,12 +11,12 @@ using WEB.Models.Account;
 
 namespace WEB.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IStudyDataService _studyDataService;
+        private readonly IRegistrationDataService _studyDataService;
 
-        public AccountController(IUserService userService, IStudyDataService studyDataService)
+        public AccountController(IUserService userService, IRegistrationDataService studyDataService)
         {
             _userService = userService;
             _studyDataService = studyDataService;
@@ -39,7 +40,9 @@ namespace WEB.Controllers
 
             if (loginData != null)
             {
-                AuthenticationManager.SetCookie(loginData.Email, model.RememberMe, loginData.Role);
+                AuthenticationManager.SetCookie(loginData.Email, model.RememberMe,
+                    new UserData(loginData.Id, loginData.Role));
+
                 return Json(new {success = true, url = GetLocalUrl(model.ReturnUrl)});
             }
 
@@ -48,13 +51,13 @@ namespace WEB.Controllers
         }
 
         [Authorize]
-        public ActionResult SignOut(string returnUrl)
+        public ActionResult SignOut()
         {
             AuthenticationManager.SignOut();
-            return RedirectToLocalUrl(returnUrl);
+            return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Register()
+        public ActionResult Registration()
         {
             IEnumerable<SelectListItem> ListOfUnivs = new List<SelectListItem>();
             IEnumerable<SelectListItem> ListOfInstits = new List<SelectListItem>();
@@ -75,25 +78,19 @@ namespace WEB.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegistrationModel model)
+        public async Task<ActionResult> Registration(RegistrationModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var user = new UserDTO
-            {
-                Login = model.Login,
-                Password = model.Password,
-                Email = model.Email
-            };
-
+            var user = Mapper.Map<UserModel>(model);
             var result = await _userService.CreateUser(user);
              
             if (result.Success)
             {
-                var token = await _userService.CreateVerificationToken(model.Login);
+                var token = await _userService.CreateVerificationToken(model.Email);
                 var link = Url.Action("ConfirmAccount", "Account", new {token = token.Value}, Request.Url.Scheme);
 
                 await _userService.SendConfirmationMessage(model.Email, link);
@@ -101,7 +98,7 @@ namespace WEB.Controllers
                 return Json(new {success = true});
             }
 
-            return Json(new {success = false});
+            return Json(new {success = false, message = result.Errors.First()});
         }
 
         public async Task<ActionResult> ConfirmAccount(Guid token)
@@ -114,9 +111,50 @@ namespace WEB.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
+        public async Task<ActionResult> ForgotPassword(string loginOrEmail)
         {
-            throw new NotImplementedException();
+            var user = await _userService.GetUserLoginData(loginOrEmail);
+
+            if (user != null)
+            {
+                var token = await _userService.CreatePasswordResetToken(user.Id);
+                var link = Url.Action("ResetPassword", "Account", new {token = token.Value}, Request.Url.Scheme);
+
+                await _userService.SendPasswordResetMessage(user.Email, link);
+
+                return Json(new {success = true});
+            }
+
+            ModelState.AddModelError("loginOrEmail", "Аккаунт с такими данными не зарегистрирован в системе");
+            return View("_ForgotPasswordDialog", (object)loginOrEmail);
+        }
+
+        public async Task<ActionResult> ResetPassword(Guid token)
+        {
+            var result = await _userService.CheckUserPasswordResetToken(token);
+
+            if (result.Success)
+            {
+                var model = new ResetPasswordModel {PasswordResetToken = token};
+                return View(model);
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _userService.ResetUserPassword(model.PasswordResetToken, model.NewPassword);
+
+            if (result.Success)
+                return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("Summary", result.Errors.First());
+            return View(model);
         } 
 
 
@@ -155,7 +193,7 @@ namespace WEB.Controllers
         public async Task<JsonResult> GetGroupList(string institute, int course)
         {
             var list = await _studyDataService.GetGroups(institute, course);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return Json(list.Select(t => new {id = t.Id, name = t.Name}), JsonRequestBehavior.AllowGet);
         }
 
 

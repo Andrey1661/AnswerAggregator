@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.MemoryMappedFiles;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,38 +6,39 @@ using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
 using WEB.Models.Proflie;
+using WEB.Models.Topic;
+using WEB.Utility;
 
 namespace WEB.Controllers
 {
-    public class ProfileController : Controller
+    [Authorize]
+    public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
-        private readonly ITopicService _topicService;
+        private readonly ISubjectService _subjectService;
 
-        public ProfileController(IProfileService profileService, ITopicService topicService)
+        public ProfileController(IProfileService profileService, ISubjectService subjectService)
         {
             _profileService = profileService;
-            _topicService = topicService;
-
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<ProfileDTO, ProfileModel>();
-            });
+            _subjectService = subjectService;
         }
 
-        private string CurrentUser { get { return User.Identity.Name; } }
-
-        [Authorize]
         public async Task<ActionResult> Index()
         {
-            var subjects = _topicService.GetSubjects(CurrentUser);
             var profile = await _profileService.GetProfile(CurrentUser);
             var model = Mapper.Map<ProfileModel>(profile);
+
+            var subjects = await _subjectService.GetSubjects(profile.GroupId, 5);
+
+            model.Subjects = subjects.Select(t => new SubjectModel
+            {
+                Id = t.Id,
+                Name = t.Name
+            });
 
             return View(model);
         }
 
-        [Authorize]
         public async Task<ActionResult> Settings()
         {
             var settings = await _profileService.GetSettings(CurrentUser);
@@ -50,6 +48,19 @@ namespace WEB.Controllers
             {
                 Data = model
             };
-        } 
+        }
+
+        public async Task<ActionResult> SetAvatar(HttpPostedFileBase file)
+        {
+            var model = new FileModel
+            {
+                FileName = file.FileName,
+                Data = file.ToByteArray()
+            };
+
+            await _profileService.SetAvatar(User.Identity.Name, model);
+
+            return RedirectToAction("Index");
+        }
     }
 }

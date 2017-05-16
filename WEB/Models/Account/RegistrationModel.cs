@@ -22,13 +22,6 @@ namespace WEB.Models.Account
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Университет")]
-        public string University { get; set; }
-
-        [Display(Name = "Институт")]
-        public string Institute { get; set; }
-
-        [Display(Name = "Группа")]
-        public string Group { get; set; }
+        public string GroupId { get; set; }
     }
 }

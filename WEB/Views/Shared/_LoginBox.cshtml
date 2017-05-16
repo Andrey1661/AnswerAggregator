@@ -10,7 +10,7 @@
     @Html.HiddenFor(t => t.ReturnUrl)
 
     <div class="login-textbox-block">
-            <div>
+            <div>                
                 @Html.LabelFor(t => t.UserName, new {@class = "control-label"})
                 @Html.TextBoxFor(t => t.UserName, new { @class = "form-control" })
             </div>           
@@ -38,12 +38,12 @@
         <input type="submit" value="Войти" class="btn btn-primary"/>
     </div>
     <div>
-        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+        @Html.ActionLink("Зарегистрироваться", "Registration", "Account")
     </div>
 }
 
 <div id="forgot-password" class="modal-window">
-    @Html.Partial("_ForgotPasswordDialog", new ForgotPasswordModel())
+    @Html.Partial("_ForgotPasswordDialog", string.Empty)
 </div>
 
 <script>

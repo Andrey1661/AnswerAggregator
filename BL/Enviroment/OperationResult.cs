@@ -13,5 +13,17 @@ namespace BL.Enviroment
             Errors = new List<string>();
             Success = success;
         }
+
+        public OperationResult(string error)
+        {
+            Success = false;
+            Errors = new List<string> {error};
+        }
+
+        public OperationResult(IEnumerable<string> errors)
+        {
+            Success = false;
+            Errors = new List<string>(errors);
+        }
     }
 }

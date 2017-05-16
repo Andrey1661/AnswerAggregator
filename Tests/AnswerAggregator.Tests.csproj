@@ -90,8 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\Services\ServerFileManagerTest.cs" />
+    <Compile Include="Domain\FileLoggerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -100,6 +101,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnswerAggregator.Domain\AnswerAggregator.Domain.csproj">
+      <Project>{2138def6-2bb5-40a3-9367-f81120aa245d}</Project>
+      <Name>AnswerAggregator.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BL\AnswerAggregator.BL.csproj">
+      <Project>{6d0d8fe0-f99b-452c-addc-37a7d7ffafe2}</Project>
+      <Name>AnswerAggregator.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WEB\AnswerAggregator.WEB.csproj">
       <Project>{68B0CFD9-CAC7-4F89-9F13-19F3BEFF9C95}</Project>
       <Name>AnswerAggregator.WEB</Name>
