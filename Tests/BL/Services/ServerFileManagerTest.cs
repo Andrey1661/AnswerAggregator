@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BL.DTO.PresentationToBl;
+using BL.DTO;
 using BL.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

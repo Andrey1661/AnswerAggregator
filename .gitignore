@@ -27,6 +27,7 @@ bin/
 obj/
 TestResults/
 WEB/EfLogs/
+WEB/Posts/
 ###################
 # Web publish log #
 ###################
